@@ -286,6 +286,13 @@
                 </div>
 
                 {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+{% assign custom_forms = section.blocks | where: "type", "custom_form_fields" %}
+{%- for block in custom_forms -%}
+  <div class="product__description rte">
+  <label for="{{ block.settings.input_name }}">{{ block.settings.input_label }}</label>
+  <input type="{{ block.settings.input_type }}" id="{{ block.settings.input_name }}" name="{{ block.settings.input_name }}" class="{% if block.settings.type == 'checkbox' %}checkbox_input{% else %}field__input{% endif %}">
+</div>
+{% endfor %}
                   <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" disabled>
                   <div class="product-form__buttons">
                     <button
@@ -796,6 +803,69 @@
         {
           "type": "paragraph",
           "content": "t:sections.main-product.blocks.rating.settings.paragraph.content"
+        }
+      ]
+    },
+    {
+      "type": "custom_form_fields",
+      "name": "t:sections.main-product.blocks.custom_form_fields.name",
+      "settings": [
+        {
+          "type": "select",
+          "id": "input_type",
+          "label": "Input type",
+          "options": [
+            {
+              "value": "text",
+              "label": "Text"
+            },
+            {
+              "value": "number",
+              "label": "Number"
+            },
+            {
+              "value": "email",
+              "label": "Email"
+            },
+            {
+              "value": "tel",
+              "label": "Phone"
+            },
+            {
+              "value": "textarea",
+              "label": "Textarea"
+            },
+            {
+              "value": "select",
+              "label": "Select"
+            },
+            {
+              "value": "radio",
+              "label": "Radio"
+            },
+            {
+              "value": "checkbox",
+              "label": "Checkbox"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "input_label",
+          "default": "Input field label",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_label.label"
+        },
+        {
+          "type": "text",
+          "id": "input_placeholder",
+          "default": "Input field placeholder",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_placeholder.label"
+        },
+        {
+          "type": "text",
+          "id": "input_name",
+          "default": "Input field name",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_name.label"
         }
       ]
     }
