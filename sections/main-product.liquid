@@ -75,6 +75,63 @@
           {%- case block.type -%}
           {%- when '@app' -%}
             {% render block %}
+
+          {%- when 'custom_form_fields' -%}
+            {% render 'include-custom-fields', block: block, product_form_id: product_form_id %}
+
+          {% when 'custom_checkbox_fields' %}
+            {% render 'include-custom-fields', block: block, product_form_id: product_form_id %}
+          
+          {% when 'custom_select_fields' %}
+          {% liquid
+            assign fieldTags = block.settings.input_tags | split: ','
+            assign tagsExists = false
+            for tag in product.tags
+              if fieldTags contains tag
+                assign tagsExists = true
+                break
+              endif
+            endfor
+          %}
+          <!-- Select fields -->
+          {% if tagsExists %}
+          {%- assign options = block.settings.select_options | split: ',' -%}
+          <div class="field custom-field">
+            <select {% if block.settings.input_required %}required{% endif %} id="{{ block.settings.input_name }}"
+              name="properties[{{ block.settings.input_name }}]" class="select__select field__input" form="{{ product_form_id }}" data-error="{{ block.settings.input_error }}">
+              <option value="">{{ block.settings.input_placeholder }}</option>
+              {% for option in options %}
+              <option value="{{ option }}">{{ option }}</option>
+              {% endfor %}
+            </select>
+            <label class="form__label field__label" for="{{ block.settings.input_name }}">{{ block.settings.input_label }}</label>
+          </div>
+          {% endif %}
+
+          {%- when 'custom_form_upload' -%}
+          {% liquid
+            assign fieldTags = block.settings.input_tags | split: ','
+            assign tagsExists = false
+            for tag in product.tags
+              if fieldTags contains tag
+                assign tagsExists = true
+                break
+              endif
+            endfor
+          %}
+          <!-- input upload -->
+          {% if tagsExists %}
+          <div class="field custom-field">
+            <input {% if block.settings.input_required %}required{% endif %} type="file"
+              id="{{ block.settings.input_name }}" name="properties[{{ block.settings.input_name }}]" class="field__input file__upload" form="{{ product_form_id }}" data-error="{{ block.settings.input_error }}" accept="{{ block.settings.input_filetypes }}">
+          
+            <label class="form__label field__label" for="{{ block.settings.input_name }}">{{ block.settings.input_label
+              }}</label>
+          </div>
+          
+          {% endif %}
+
+
           {%- when 'text' -%}
             <p class="product__text{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}" {{ block.shopify_attributes }}>
               {{- block.settings.text -}}
@@ -98,7 +155,7 @@
               </div>
             {%- endif -%}
             <div {{ block.shopify_attributes }}>
-              {%- form 'product', product, id: 'product-form-installment', class: 'installment caption-large' -%}
+              {%- form 'product', product, id: 'product-form-installment', class: 'installment caption-large', novalidate: 'novalidate', data-product-form: '' -%}
                 <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
                 {{ form | payment_terms }}
               {%- endform -%}
@@ -171,7 +228,7 @@
                   {{ block.settings.share_label | escape }}
                 </summary>
                 <div id="Product-share-{{ section.id }}" class="share-button__fallback motion-reduce">
-                  <div class="field">
+                  <div class="field custom-field">
                     <span id="ShareMessage-{{ section.id }}" class="share-button__message hidden" role="status">
                     </span>
                     <input type="text"
@@ -285,14 +342,7 @@
                   <span class="product-form__error-message"></span>
                 </div>
 
-                {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
-{% assign custom_forms = section.blocks | where: "type", "custom_form_fields" %}
-{%- for block in custom_forms -%}
-  <div class="product__description rte">
-  <label for="{{ block.settings.input_name }}">{{ block.settings.input_label }}</label>
-  <input type="{{ block.settings.input_type }}" id="{{ block.settings.input_name }}" name="{{ block.settings.input_name }}" class="{% if block.settings.type == 'checkbox' %}checkbox_input{% else %}field__input{% endif %}">
-</div>
-{% endfor %}
+                {%- form 'product', product, id: product_form_id, class: 'form', data-type: 'add-to-cart-form' -%}
                   <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" disabled>
                   <div class="product-form__buttons">
                     <button
@@ -414,7 +464,31 @@
     </modal-dialog>
   {%- endfor -%}
 </section>
-
+{% style %}
+.custom-field .field__input {
+  box-shadow: 0 0 0 0.1rem rgba(var(--color-base-text), 0.08);
+}
+.custom-field select.select__select,
+.custom-field .field__input.file__upload {
+  height: 5rem;
+}
+.custom-field {
+  margin: 20px 0;
+}
+.custom-field .field,
+.custom-field fieldset {
+  margin-top: 20px;
+}
+.custom-field fieldset {
+  border: 0;
+  padding: 0;
+}
+fieldset.custom-field legend {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+{% endstyle %}
 {% javascript %}
   class ProductModal extends ModalDialog {
     constructor() {
@@ -473,6 +547,20 @@
       hiddenInput.value = event.currentTarget.value;
     });
   });
+
+
+    // fill hidden field with selected value
+    function fillHidden(hiddenname) {
+      let checkboxes = document.querySelectorAll('[hidden-data="' + hiddenname + '"]');
+      let hiddenfield = document.getElementById(hiddenname);
+
+      hiddenfield.value = ""
+      checkboxes.forEach((x) => {
+        if (x.checked) {
+          (hiddenfield.value == "") ? hiddenfield.value = x.value : hiddenfield.value = hiddenfield.value + ", " + x.value;
+        }
+      });
+    }
 </script>
 
 {%- if first_3d_model -%}
@@ -525,6 +613,7 @@
   "name": "t:sections.main-product.name",
   "tag": "section",
   "class": "product-section spaced-section",
+  "max_blocks": 25,
   "blocks": [
     {
       "type": "@app"
@@ -808,8 +897,15 @@
     },
     {
       "type": "custom_form_fields",
-      "name": "t:sections.main-product.blocks.custom_form_fields.name",
+      "name": "Form text field",
       "settings": [
+        {
+          "type": "text",
+          "id": "input_tags",
+          "label": "Tags",
+          "default": "adidas",
+          "info": "Tags where this input will appear."
+        },
         {
           "type": "select",
           "id": "input_type",
@@ -834,11 +930,68 @@
             {
               "value": "textarea",
               "label": "Textarea"
-            },
-            {
-              "value": "select",
-              "label": "Select"
-            },
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "input_label",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_label.label"
+        },
+        {
+          "type": "text",
+          "id": "input_placeholder",
+          "default": "Placeholder",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_placeholder.label"
+        },
+        {
+          "type": "text",
+          "id": "input_name",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_name.label"
+        },
+        {
+          "type": "number",
+          "id": "input_min",
+          "default": 30,
+          "label": "Input field min"
+        },
+        {
+          "type": "number",
+          "id": "input_max",
+          "default": 120,
+          "label": "Input field max"
+        },
+        {
+          "type": "checkbox",
+          "id": "input_required",
+          "label": "Is required?",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "input_error",
+          "label": "Required error message",
+          "default": "Este campo es requerido!"
+        }
+      ]
+    },
+    {
+      "type": "custom_checkbox_fields",
+      "name": "Form check/opts field",
+      "settings": [
+        {
+          "type": "text",
+          "id": "input_tags",
+          "label": "Tags",
+          "default": "adidas",
+          "info": "Tags where this input will appear."
+        },
+        {
+          "type": "radio",
+          "id": "option_type",
+          "label": "Checkbox or Radio options",
+          "default": "checkbox",
+          "options": [
             {
               "value": "radio",
               "label": "Radio"
@@ -857,15 +1010,106 @@
         },
         {
           "type": "text",
-          "id": "input_placeholder",
-          "default": "Input field placeholder",
-          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_placeholder.label"
+          "id": "input_name",
+          "default": "Input field name",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_name.label"
+        },
+        {
+          "type": "text",
+          "id": "checkbox_options",
+          "label": "Options",
+          "default": "Opcion 1, Opcion 2, Opcion 3"
+        }
+      ]
+    },
+    {
+      "type": "custom_select_fields",
+      "name": "Form select field",
+      "settings": [
+        {
+          "type": "text",
+          "id": "input_tags",
+          "label": "Tags",
+          "default": "adidas",
+          "info": "Tags where this input will appear."
+        },
+        {
+          "type": "text",
+          "id": "input_label",
+          "default": "Input field label",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_label.label"
         },
         {
           "type": "text",
           "id": "input_name",
           "default": "Input field name",
           "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_name.label"
+        },
+        {
+          "type": "text",
+          "id": "select_options",
+          "label": "Options",
+          "default": "Opcion 1, Opcion 2, Opcion 3"
+        },
+        {
+          "type": "text",
+          "id": "input_placeholder",
+          "label": "Default option",
+          "default": "Selecciona una opción"
+        },
+        {
+          "type": "checkbox",
+          "id": "input_required",
+          "label": "Is required?",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "input_error",
+          "label": "Required error message",
+          "default": "Este campo es requerido!"
+        }
+      ]
+    },
+    {
+      "type": "custom_form_upload",
+      "name": "Form upload field",
+      "settings": [
+        {
+          "type": "text",
+          "id": "input_tags",
+          "label": "Tags",
+          "default": "adidas",
+          "info": "Tags where this input will appear."
+        },
+        {
+          "type": "text",
+          "id": "input_label",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_label.label"
+        },
+        {
+          "type": "text",
+          "id": "input_name",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_name.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "input_required",
+          "label": "Is required?",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "input_error",
+          "label": "Required error message",
+          "default": "¡Por favor elige un archivo!"
+        },
+        {
+          "type": "text",
+          "id": "input_filetypes",
+          "label": "Accepted file types",
+          "default": "image/jpeg,image/png,image/gif, application/pdf, application/vnd.ms-excel",
+          "info": "Comma separated list of file types. Example: image/jpeg,image/png,image/gif, application/pdf, application/vnd.ms-excel (o image/* para todo tipo de imagenes)"
         }
       ]
     }

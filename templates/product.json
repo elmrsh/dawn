@@ -37,6 +37,18 @@
         },
         "share": {
           "type": "share"
+        },
+        "custom_form_fields": {
+          "type": "custom_form_fields"
+        },
+        "custom_checkbox_fields": {
+          "type": "custom_checkbox_fields"
+        },
+        "custom_select_fields": {
+          "type": "custom_select_fields"
+        },
+        "custom_form_upload": {
+          "type": "custom_form_upload"
         }
       },
       "block_order": [
@@ -48,7 +60,11 @@
         "quantity_selector",
         "buy_buttons",
         "description",
-        "share"
+        "share",
+        "custom_form_fields",
+        "custom_checkbox_fields",
+        "custom_select_fields",
+        "custom_form_upload"
       ]
     },
     "product-recommendations": {

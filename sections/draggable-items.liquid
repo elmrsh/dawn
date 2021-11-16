@@ -1,0 +1,189 @@
+{{ 'draggable-section.css' | asset_url | stylesheet_tag }}
+<style>
+  #canvas-wrapper {
+    height: {{ section.settings.canvas_height | append: 'vh' }};
+    width: 100%;
+    position: relative;
+    cursor: grab;
+    background: inherit;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  #canvas-wrapper canvas {
+    position: absolute;
+    bottom: 0;
+    z-index: 10;
+  }
+</style>
+{% capture images %}
+  {% for block in section.blocks %}
+    {{ block.settings.image | img_url }}{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+{% endcapture %}
+{% assign items = images | split: ', ' %}
+
+<div class="draggable-section{% unless section.settings.full_width %} page-width{% endunless %}">
+  <div>
+    <h2 class="title">{{ section.settings.heading }}</h2>
+    <div class="section-items">
+      <div id="canvas-wrapper" data-images="{{ items }}"><canvas></canvas></div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Draggable items",
+  "tag": "section",
+  "class": "spaced-section spaced-section--full-width",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Title",
+      "label": "Title"
+    },
+    {
+      "type": "number",
+      "id": "canvas_height",
+      "label": "Canvas height in vh",
+      "default": 100
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.video.settings.full_width.label",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Draggable items"
+    }
+  ]
+}
+{% endschema %}
+{% javascript %}
+const windowWidth = window.innerWidth;
+const windowHeight = window.innerHeight;
+const siteUrl = window.location.origin;
+const responsive = !(900 < windowWidth); const responsiveMobile=!(600 < windowWidth);
+
+const getRandomInt = (t, e) => (t = Math.ceil(t), e = Math.floor(e), Math.floor(Math.random() * (e - t)) + t);
+
+const draggableItems = () => {
+    const t = document.querySelector(" .section-items");
+    const e = document.getElementById("canvas-wrapper");
+    let imagesArr = e.dataset.images.split(',');
+    const n = e.offsetWidth;
+    const a = e.offsetHeight;
+    const i = 1400;
+    const o = (responsive, 4);
+    const ancho = 98;
+    const altura = 98;
+    const r = responsive ? 1 : 1.25;
+    const l = undefined;
+    const d = undefined;
+    const h = undefined;
+
+    const m = function() {
+        let t = Matter.Engine,
+            l = Matter.Render,
+            d = Matter.Runner,
+            h = Matter.Composites,
+            m = Matter.Common,
+            f = Matter.MouseConstraint,
+            p = Matter.Mouse,
+            w = Matter.World,
+            g = Matter.Bodies;
+        Body = Matter.Body;
+        let v = t.create(),
+            $ = v.world;
+        let y = l.create({
+            element: e,
+            engine: v,
+            options: {
+                width: n,
+                height: i,
+                background: "transparent",
+                showAngleIndicator: !1,
+                wireframes: !1
+            }
+        });
+        l.run(y);
+        let b = d.create();
+        d.run(b, v);
+        let C = {
+            isStatic: !0,
+            render: {
+                fillStyle: "transparent",
+                strokeStyle: "transparent",
+                lineWidth: 1
+            }
+        };
+        $.bodies = [], w.add($, [
+        g.rectangle(0, i / 2, 1, 2 * i, C), 
+        g.rectangle(n, i / 2, 1, 2 * i, C), 
+        g.rectangle(n, i / 2, 1, 2 * i, C), 
+        g.rectangle(n / 2, i - (i - a) / 2, n, 1, C)
+        ]);
+        let k = h.stack(5, 5, n / (ancho * r), o, 0, 0, (function(t, e) {
+            let a = getRandomInt(0, imagesArr.length);
+            let o = getRandomInt(0, n);
+            let l = getRandomInt(0, i);
+            return box = g.rectangle(o, l, ancho * r, altura * r, {
+                angle: getRandomInt(0, 180),
+                render: {
+                    sprite: {
+                        texture: imagesArr[a],
+                        xScale: r,
+                        yScale: r
+                    }
+                }
+            })
+        }));
+        w.add($, k);
+        let x = p.create(y.canvas),
+            _ = f.create(v, {
+                mouse: x,
+                constraint: {
+                    stiffness: .2,
+                    render: {
+                        visible: !1
+                    }
+                }
+            });
+        w.add($, _), y.mouse = x, l.lookAt(y, {
+            min: {
+                x: 0,
+                y: 0
+            },
+            max: {
+                x: n,
+                y: a
+            }
+        }), x.element.removeEventListener("mousewheel", x.mousewheel), x.element.removeEventListener("DOMMouseScroll", x.mousewheel)
+    };
+    let f = 0;
+    const p = () => {
+        scrollY + window.innerHeight > t.offsetTop && 0 == f && (m(), f++)
+    };
+    p(), window.scroll(p)
+};
+
+draggableItems();
+{% endjavascript %}

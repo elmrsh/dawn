@@ -691,6 +691,164 @@
         }
       }
     },
+    "banner-section": {
+      "name": "Sección banner",
+      "settings": {
+        "image": {
+          "label": "Primera imagen"
+        },
+        "image_2": {
+          "label": "Segunda imagen"
+        },
+        "desktop_text_box_position": {
+          "options__1": {
+            "label": "Arriba"
+          },
+          "options__2": {
+            "label": "Centrado"
+          },
+          "options__3": {
+            "label": "Abajo"
+          },
+          "label": "Posición de texto en computadora"
+        },
+        "desktop_text_h_position": {
+          "options__1": {
+            "label": "Izquierda"
+          },
+          "options__2": {
+            "label": "Centrado"
+          },
+          "options__3": {
+            "label": "Derecho"
+          },
+          "label": "Posición horizontal de texto en computadora"
+        },
+        "color_scheme": {
+          "options__1": {
+            "label": "Acento 1"
+          },
+          "options__2": {
+            "label": "Acento 2"
+          },
+          "options__3": {
+            "label": "Fondo 1"
+          },
+          "options__4": {
+            "label": "Fondo 2"
+          },
+          "options__5": {
+            "label": "Invertir"
+          },
+          "label": "Esquema de colores",
+          "info": "Utilizada para el cuadro de texto."
+        },
+        "stack_images_on_mobile": {
+          "label": "Apilar imágenes en móviles"
+        },
+        "adapt_height_first_image": {
+          "label": "Adaptar altura de sección a tamaño de primera imagen",
+          "info": "Sobrescribe la configuración de altura del Sección banner cuando está seleccionada."
+        },
+        "show_text_box": {
+          "label": "Mostrar el cuadro de texto en el escritorio"
+        },
+        "image_overlay_opacity": {
+          "label": "Opacidad de la sobreposición de imagen"
+        },
+        "header": {
+          "content": "Diseño para móviles"
+        },
+        "show_text_below": {
+          "label": "Mostrar el texto debajo de las imágenes"
+        },
+        "image_height": {
+          "label": "Altura del Seccion",
+          "options__1": {
+            "label": "Pequeña"
+          },
+          "options__2": {
+            "label": "Mediana"
+          },
+          "options__3": {
+            "label": "Grande"
+          },
+          "info": "Para mejores resultados, utiliza una imagen con una relación de aspecto 2:3. [Más información](https://help.shopify.com/en/manual/shopify-admin/productivity-tools/image-editor#understanding-image-aspect-ratio)"
+        }
+      },
+      "blocks": {
+        "subheading": {
+          "name": "Sub título",
+          "settings": {
+            "heading": {
+              "label": "Sub título"
+            },
+            "heading_size": {
+              "options__1": {
+                "label": "Medio"
+              },
+              "options__2": {
+                "label": "Grande"
+              },
+              "label": "Tamaño de fuente de sub título"
+            }
+          }
+        },
+        "heading": {
+          "name": "Título",
+          "settings": {
+            "heading": {
+              "label": "Título"
+            },
+            "heading_size": {
+              "options__1": {
+                "label": "Medio"
+              },
+              "options__2": {
+                "label": "Grande"
+              },
+              "label": "Tamaño de fuente de título"
+            }
+          }
+        },
+        "text": {
+          "name": "Texto",
+          "settings": {
+            "text": {
+              "label": "Descripción"
+            }
+          }
+        },
+        "buttons": {
+          "name": "Botones",
+          "settings": {
+            "button_label_1": {
+              "label": "Primera etiqueta de botón",
+              "info": "Deja la etiqueta en blanco para ocultar el botón."
+            },
+            "button_link_1": {
+              "label": "Primer enlace de botón"
+            },
+            "button_style_secondary_1": {
+              "label": "Usar estilo de botón con contorno"
+            },
+            "button_label_2": {
+              "label": "Primera etiqueta de botón",
+              "info": "Deja la etiqueta en blanco para ocultar el botón."
+            },
+            "button_link_2": {
+              "label": "Segundo enlace de botón"
+            },
+            "button_style_secondary_2": {
+              "label": "Usar estilo de botón con contorno"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Sección banner"
+      }
+    },
     "image-banner": {
       "name": "Banner de imagen",
       "settings": {
@@ -710,7 +868,7 @@
           "options__3": {
             "label": "Abajo"
           },
-          "label": "Posición de texto en computadora"
+          "label": "Posición vertical de texto en computadora"
         },
         "color_scheme": {
           "options__1": {

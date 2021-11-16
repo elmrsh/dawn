@@ -1,0 +1,189 @@
+{% render 'include-custom-fields' %}
+
+{% schema %}
+{
+  "name": "Custom fields",
+  "tag": "section",
+  "class": "custom-fields-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "input_tags",
+      "label": "Tags to apply this fields",
+      "default": "adidas,backpack"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "custom_form_fields",
+      "name": "t:sections.main-product.blocks.custom_form_fields.name",
+      "settings": [
+        {
+          "type": "select",
+          "id": "input_type",
+          "label": "Input type",
+          "options": [
+            {
+              "value": "text",
+              "label": "Text"
+            },
+            {
+              "value": "number",
+              "label": "Number"
+            },
+            {
+              "value": "email",
+              "label": "Email"
+            },
+            {
+              "value": "tel",
+              "label": "Phone"
+            },
+            {
+              "value": "textarea",
+              "label": "Textarea"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "input_label",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_label.label"
+        },
+        {
+          "type": "text",
+          "id": "input_placeholder",
+          "default": "Placeholder",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_placeholder.label"
+        },
+        {
+          "type": "text",
+          "id": "input_name",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_name.label"
+        },
+        {
+          "type": "number",
+          "id": "input_min",
+          "default": 30,
+          "label": "Input field min"
+        },
+        {
+          "type": "number",
+          "id": "input_max",
+          "default": 120,
+          "label": "Input field max"
+        },
+        {
+          "type": "checkbox",
+          "id": "input_required",
+          "label": "Is required?",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "input_error",
+          "label": "Required error message",
+          "default": "Este campo es requerido!"
+        }
+      ]
+    },
+    {
+      "type": "custom_checkbox_fields",
+      "name": "Checkbox/options field",
+      "settings": [
+        {
+          "type": "radio",
+          "id": "option_type",
+          "label": "Checkbox or Radio options",
+          "default": "checkbox",
+          "options": [
+            {
+              "value": "radio",
+              "label": "Radio"
+            },
+            {
+              "value": "checkbox",
+              "label": "Checkbox"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "input_label",
+          "default": "Input field label",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_label.label"
+        },
+        {
+          "type": "text",
+          "id": "input_name",
+          "default": "Input field name",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_name.label"
+        },
+        {
+          "type": "text",
+          "id": "checkbox_options",
+          "label": "Options",
+          "default": "Opcion 1, Opcion 2, Opcion 3"
+        }
+      ]
+    },
+    {
+      "type": "custom_select_fields",
+      "name": "Select field",
+      "settings": [
+        {
+          "type": "text",
+          "id": "input_label",
+          "default": "Input field label",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_label.label"
+        },
+        {
+          "type": "text",
+          "id": "input_name",
+          "default": "Input field name",
+          "label": "t:sections.main-product.blocks.custom_form_fields.settings.input_name.label"
+        },
+        {
+          "type": "text",
+          "id": "select_options",
+          "label": "Options",
+          "default": "Opcion 1, Opcion 2, Opcion 3"
+        },
+        {
+          "type": "text",
+          "id": "input_placeholder",
+          "label": "Default option",
+          "default": "Selecciona una opción"
+        },
+        {
+          "type": "checkbox",
+          "id": "input_required",
+          "label": "Is required?",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "input_error",
+          "label": "Required error message",
+          "default": "Este campo es requerido!"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom fields",
+      "blocks": [
+        {
+          "type": "custom_form_fields"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

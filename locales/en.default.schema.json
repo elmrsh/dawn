@@ -813,6 +813,164 @@
         }
       }
     },
+    "banner-section": {
+      "name": "Banner section",
+      "settings": {
+        "image": {
+          "label": "First image"
+        },
+        "image_2": {
+          "label": "Second image"
+        },
+        "image_height": {
+          "label": "Banner height",
+          "options__1": {
+            "label": "Small"
+          },
+          "options__2": {
+            "label": "Medium"
+          },
+          "options__3": {
+            "label": "Large"
+          },
+          "info": "For best results, use an image with a 2:3 aspect ratio. [Learn more](https://help.shopify.com/en/manual/shopify-admin/productivity-tools/image-editor#understanding-image-aspect-ratio)"
+        },
+        "desktop_text_box_position": {
+          "options__1": {
+            "label": "Top"
+          },
+          "options__2": {
+            "label": "Center"
+          },
+          "options__3": {
+            "label": "Bottom"
+          },
+          "label": "Desktop text position"
+        },
+        "desktop_text_h_position": {
+          "options__1": {
+            "label": "Left"
+          },
+          "options__2": {
+            "label": "Center"
+          },
+          "options__3": {
+            "label": "Right"
+          },
+          "label": "Desktop text horizontal position"
+        },
+        "show_text_box": {
+          "label": "Show text box on desktop"
+        },
+        "image_overlay_opacity": {
+          "label": "Image overlay opacity"
+        },
+        "color_scheme": {
+          "options__1": {
+            "label": "Accent 1"
+          },
+          "options__2": {
+            "label": "Accent 2"
+          },
+          "options__3": {
+            "label": "Background 1"
+          },
+          "options__4": {
+            "label": "Background 2"
+          },
+          "options__5": {
+            "label": "Inverse"
+          },
+          "label": "Color scheme",
+          "info": "Used for text box."
+        },
+        "header": {
+          "content": "Mobile Layout"
+        },
+        "stack_images_on_mobile": {
+          "label": "Stack images on mobile"
+        },
+        "show_text_below": {
+          "label": "Show text below images"
+        },
+        "adapt_height_first_image": {
+          "label": "Adapt section height to first image size",
+          "info": "Overwrites Banner section height setting when checked."
+        }
+      },
+      "blocks": {
+        "subheading": {
+          "name": "Sub heading",
+          "settings": {
+            "heading": {
+              "label": "Sub heading"
+            },
+            "heading_size": {
+              "options__1": {
+                "label": "Medium"
+              },
+              "options__2": {
+                "label": "Large"
+              },
+              "label": "Sub heading font size"
+            }
+          }
+        },
+        "heading": {
+          "name": "Heading",
+          "settings": {
+            "heading": {
+              "label": "Heading"
+            },
+            "heading_size": {
+              "options__1": {
+                "label": "Medium"
+              },
+              "options__2": {
+                "label": "Large"
+              },
+              "label": "Heading font size"
+            }
+          }
+        },
+        "text": {
+          "name": "Text",
+          "settings": {
+            "text": {
+              "label": "Description"
+            }
+          }
+        },
+        "buttons": {
+          "name": "Buttons",
+          "settings": {
+            "button_label_1": {
+              "label": "First button label",
+              "info": "Leave the label blank to hide the button."
+            },
+            "button_link_1": {
+              "label": "First button link"
+            },
+            "button_style_secondary_1": {
+              "label": "Use outline button style"
+            },
+            "button_label_2": {
+              "label": "Second button label",
+              "info": "Leave the label blank to hide the button."
+            },
+            "button_link_2": {
+              "label": "Second button link"
+            },
+            "button_style_secondary_2": {
+              "label": "Use outline button style"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Banner section"
+      }
+    },
     "image-banner": {
       "name": "Image banner",
       "settings": {

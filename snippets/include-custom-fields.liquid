@@ -1,0 +1,71 @@
+{% liquid
+  assign fieldTags = block.settings.input_tags | split: ','
+  assign tagsExists = false
+  for tag in product.tags
+    if fieldTags contains tag
+      assign tagsExists = true
+      break
+    endif
+  endfor
+%}
+{% case block.type %}
+{% when 'custom_form_fields' %}
+    <!-- text fields -->
+    {% if tagsExists %}
+    
+    {% assign input_type = block.settings.input_type %}
+    {% assign input_min = block.settings.input_min %}
+    {% assign input_max = block.settings.input_max %}
+    {% assign input_placeholder = block.settings.input_placeholder %}
+    {% assign input_required = block.settings.input_required %}
+    {% assign input_name = block.settings.input_name %}
+    {% assign input_label = block.settings.input_label %}
+    {% assign input_error = block.settings.input_error %}
+
+    <div class="field custom-field">
+    {% case input_type %}
+      {% when 'textarea' %}
+        <textarea {% if input_required %}required{% endif %} rows="3" id="{{ input_name }}"
+            name="properties[{{ input_name }}]" class="text-area field__input"
+            placeholder="{{ input_placeholder }}" form="{{ product_form_id }}" data-error="{{ input_error }}"></textarea>
+            
+      {% else %}
+        <input {% if input_required %}required{% endif %} type="text" minlenght="{{ input_min }}" maxlenght="{{ input_max }}"
+          id="{{ input_name }}" name="properties[{{ input_name }}]" class="field__input" placeholder="{{ input_placeholder }}"
+          form="{{ product_form_id }}" data-error="{{ input_error }}">
+    {% endcase %}
+
+    <label class="form__label field__label" for="{{ input_name }}">{{ input_label
+      }}</label>
+  </div>
+  {% endif %}
+
+  {% when 'custom_checkbox_fields' %}
+  <!-- Checkboxes/options -->
+          {% if tagsExists %}
+          {%- assign options = block.settings.checkbox_options | split: ',' -%}
+          <fieldset class="js product-form__input custom-field">
+            <legend>{{ block.settings.input_label }}</legend>
+            {% if block.settings.option_type == 'checkbox' %}
+            <input type="hidden" form="{{ product_form_id }}" id="{{ block.settings.input_name }}" name="properties[{{ block.settings.input_name }}]">
+            {% endif %}
+            {%- for option in options -%}
+            <input 
+            {% if block.settings.input_required %}required{% endif %} 
+            id="option-{{ block.id }}_{{ forloop.index }}" 
+            type="{{ block.settings.option_type }}"
+            value="{{- option -}}"
+            {% if
+              block.settings.option_type == 'radio' %}class="js product-form__input"
+              name="properties[{{ block.settings.input_name }}]"
+              {% else %}
+              hidden-data="{{ block.settings.input_name }}"
+              onchange="fillHidden('{{ block.settings.input_name }}')"{% endif %} form="{{ product_form_id }}" data-error="{{ block.settings.input_error }}">
+            <label for="option-{{ block.id }}_{{ forloop.index }}">
+              {{- option -}}
+            </label>
+            {% endfor %}
+          </fieldset>
+          {%- endif -%}
+
+{% endcase %}
