@@ -8,13 +8,14 @@
 .card {
   text-align: var(--card-text-alignment);
   text-decoration: none;
+  position: relative;
 }
 
-.card:not(.ratio) {
+/* .card:not(.ratio) {
   display: flex;
   flex-direction: column;
   height: 100%;
-}
+} */
 
 .card--card {
   height: 100%;
@@ -107,9 +108,9 @@
   padding: 1.3rem 1rem;
 }
 
-.card:not(.ratio) > .card__content {
+/* .card:not(.ratio) > .card__content {
   grid-template-rows: max-content minmax(0,1fr) max-content auto;
-}
+} */
 
 @media screen and (min-width: 750px) {
   .card__information {
