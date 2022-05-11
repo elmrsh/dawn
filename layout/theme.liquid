@@ -208,6 +208,8 @@
       document.documentElement.classList.add('shopify-design-mode');
     }
     </script>
+    <link rel="stylesheet" href="{{ 'swiper.min.css' | asset_url }}">
+
   </head>
 
   <body class="gradient">
@@ -219,7 +221,8 @@
       {%- render 'cart-drawer' -%}
     {%- endif -%}
 
-    {% section 'announcement-bar' %}
+    {% section 'custom-announcement-bar' %}
+    <!-- {% section 'announcement-bar' %} -->
     {% section 'header' %}
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}
@@ -264,5 +267,30 @@
     {%- if settings.predictive_search_enabled -%}
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    <script type="module">
+      import Swiper from 'https://unpkg.com/swiper@8/swiper-bundle.esm.browser.min.js'
+      const instance = () => {
+          const bar = document.querySelector('#announcement-swiper')
+          if(!bar) return
+          window.announcement = new Swiper(bar,{
+              direction: 'horizontal',
+              draggable: true,
+              autoplay: {
+                  delay: parseFloat(bar.dataset.duration) * 1000
+              },
+              speed: parseFloat(bar.dataset.transition) * 1000
+          })
+          document.addEventListener('shopify:section:unload', e => {
+              if(e.detail.sectionId !== 'announcement') return
+              window.announcement.destroy(true, true)
+          })
+          document.addEventListener('shopify:section:load', e => {
+              if(e.detail.sectionId !== 'announcement') return
+              instance()
+          })
+      }
+      instance()
+    </script>
   </body>
 </html>
