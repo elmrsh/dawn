@@ -1,0 +1,213 @@
+<link rel="stylesheet" href="{{ 'swiper.min.css' | asset_url }}">
+<style>
+
+  .collection_slider {
+    padding: {{section.settings.section_height | append: 'px'}} 0px;
+    background-color: {{ section.settings.background_color }};
+    overflow: hidden;
+  }
+  .collection_slider-container {
+    display: grid;
+    grid-template-columns: {{ section.settings.image_width }}% 1fr;
+    width: 100%;
+    overflow: hidden;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 30px;
+    gap: 20px;
+  }
+
+  .collection_slider--carousel {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+
+  @media screen and (max-width: 500px) {
+    .collection_slider-container {
+      grid-template-columns: 1fr;
+      padding-left: 0;
+    }
+
+    .collection_slider--textbox{
+      padding: 0px 20px;
+    }
+
+  }
+
+  .swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
+    pointer-events: all;
+  }
+
+  .collection_slider--img img{
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+
+  .collection_slider--carousel .swiper-slide li {
+    list-style: none;
+  }
+
+  .collection_slider .collection_slider--carousel .swiper-button-next,
+  .collection_slider .collection_slider--carousel .swiper-button-prev {
+    color: {{ section.settings.arrow_color }} !important;
+  }
+  
+  .collection_slider .collection_slider--carousel .swiper-button-next:after, 
+  .collection_slider .collection_slider--carousel  .swiper-button-prev:after {
+    font-size: 24px;
+  }
+</style>
+
+{%liquid
+  assign title = section.settings.title
+  assign description = section.settings.sidebar_description
+  assign collection = section.settings.collection
+  assign products = collection.products
+%}
+
+
+<section class="collection_slider page-width">
+  <div class="collection_slider-container">
+    <div class="collection_slider--textbox">
+      <h3>{{ title }}</h3>
+      {% if section.settings.sidebar_image != blank %}
+      <div class="collection_slider--img">
+        <img src="{{ section.settings.sidebar_image | img_url: 'master'}}" alt="">
+      </div>
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+      <div>{{ description }}</div>
+    </div>
+    <div class="collection_slider--carousel">
+      <!-- Slider main container -->
+      <div class="swiper" id="collection_slider--carousel" style="max-width: 100%; overflow: hidden;">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+          <!-- Slides -->
+          {% for product in products %}
+            <div class="swiper-slide">
+              <li id="Slide-{{ section.id }}-{{ forloop.index }}">
+            {% render 'card-product',
+              card_product: product,
+            %}
+          </li>
+            </div>
+          {% endfor %}
+        </div>
+
+      </div>
+      <div class="swiper-button-next">
+      </div>
+      <div class="swiper-button-prev">
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="module" defer>
+    import Swiper from 'https://unpkg.com/swiper@8/swiper-bundle.esm.browser.min.js'
+    const swiper = new Swiper('#collection_slider--carousel', {
+    // Optional parameters
+    slidesPerView: 1,
+    spaceBetween: 22,
+    // If we need pagination
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+
+    // Navigation arrows
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+
+    // And if we need scrollbar
+    scrollbar: {
+      el: '.swiper-scrollbar',
+    }, 
+    draggable: true,
+
+    // Breakpoints
+    breakpoints: {
+      600: {
+        slidesPerView: 2
+      },
+      1200: {
+        slidesPerView: 3
+      }
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "H - Slider with content",
+  "class": "slider-sidebar",
+  "settings": [
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Section padding",
+      "unit": "px",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 50
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow colors",
+      "default": "#007AFF"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Titulo"
+    },
+    {
+      "type": "image_picker",
+      "id": "sidebar_image",
+      "label": "Choose a sidebar image"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "label": "Sidebar image width",
+      "unit": "%",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "default": 50
+    },
+    {
+      "type": "richtext",
+      "id": "sidebar_description",
+      "label": "Description"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "H - Slider with content"
+    }
+  ]
+}
+{% endschema %}
