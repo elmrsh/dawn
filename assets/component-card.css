@@ -3,6 +3,7 @@
   height: 100%;
   position: relative;
   text-decoration: none;
+  overflow: hidden;
 }
 
 .card {
@@ -105,7 +106,7 @@
 
 .card__information {
   grid-row-start: 2;
-  padding: 1.3rem 1rem;
+  /* padding: 1.3rem 1rem; */
 }
 
 /* .card:not(.ratio) > .card__content {

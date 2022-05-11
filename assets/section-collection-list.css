@@ -70,10 +70,25 @@
   top: 0;
 }
 
+@media screen and (max-width: 765px) {
+  
+  .collection-list-wrapper .card__content {
+    padding: 2rem !important;
+  }
+}
+
 .collection-list-wrapper .card__content .card__information {
   display: flex;
   height: 100%;
   width: 100%;
+}
+
+@media screen and (max-width: 765px) {
+  .collection-list-wrapper .card__content .card__information {
+    display: flex;
+    height: 90%;
+    width: 90%;
+  }
 }
 
 .collection-list-wrapper .card__information.center{
