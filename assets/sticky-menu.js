@@ -15,6 +15,7 @@ class StickyProductOptions extends HTMLElement {
     this.quantityFieldOrg = document.querySelector('quantity-input')
     this.quantityFieldInputOrg = this.quantityFieldOrg.querySelector('input')
 
+    console.log(this.sendBtn.getBoundingClientRect())
     const send = () => {
       if(innerWidth <= this.BP) return this.mobileUI()
       this.desktopUI()
@@ -51,11 +52,11 @@ class StickyProductOptions extends HTMLElement {
     }
     else this.quantityContainer.remove()
 
-    // IntersectionHandler.addListener(
-    //   this.sendBtnOrg,
-    //   () => this.classList.remove('spo-show',this.modalClass),
-    //   () => this.classList.add('spo-show')
-    // )
+    IntersectionHandler.addListener(
+      this.sendBtnOrg,
+      () => this.classList.remove('spo-show',this.modalClass),
+      () => this.classList.add('spo-show')
+    )
   }
 
   increment() {

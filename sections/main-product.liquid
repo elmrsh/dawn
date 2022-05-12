@@ -507,8 +507,9 @@
     </div>
   </div>
 
-  {% render 'sticky-cart' %}
-
+  {% unless section.settings.enable_sticky %}
+    {% render 'sticky-cart' %}
+  {% endunless %}
 
   <product-modal id="ProductModal-{{ section.id }}" class="product-media-modal media-modal">
     <div class="product-media-modal__dialog" role="dialog" aria-label="{{ 'products.modal.label' | t }}" aria-modal="true" tabindex="-1">
@@ -1010,6 +1011,12 @@
     }
   ],
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "Hide sticky cart",
+      "default": true
+    },
     {
       "type": "checkbox",
       "id": "enable_sticky_info",
