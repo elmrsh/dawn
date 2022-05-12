@@ -90,7 +90,7 @@
     }
   }
   
-  {% if section.settings.enable_sticky_header %}
+  {% if section.settings.enable_sticky_header and template.name == 'index' %}
     
   .header-wrapper {
     background: transparent;
