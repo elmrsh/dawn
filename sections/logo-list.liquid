@@ -40,6 +40,11 @@
     left: 25px;
   }
 
+  #section-{{ section.id }} .swiper-button-next, 
+  #section-{{ section.id }} .swiper-button-prev {
+    color: {{ section.settings.arrows_color }};
+  }
+
 
   #section-{{ section.id }} .swiper-button-next:after, 
   #section-{{ section.id }} .swiper-button-prev:after {
@@ -129,10 +134,12 @@
         </div>
       {% endfor %}
     </div>
+    {%- unless section.settings.show_arrows -%}      
     <div class="swiper-button-prev">
     </div>
     <div class="swiper-button-next">
     </div>
+    {%- endunless -%}
     {%- unless section.settings.show_pagination -%}
     
     <div class="logo-list-pagination--{{ section.id }}" style="width: fit-content; margin: auto;"></div>
@@ -267,6 +274,22 @@
       "label": "Dots background color",
       "default": "#000",
       "info": "Only works with bullets style"
+    },
+    {
+      "type": "header",
+      "content": "Arrow settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Hide arrows",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "arrows_color",
+      "label": "Arrow color",
+      "default": "#000"
     },
     {
       "type": "header",
