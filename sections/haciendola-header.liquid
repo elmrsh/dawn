@@ -89,7 +89,9 @@
       margin-bottom: {{ section.settings.margin_bottom }}px;
     }
   }
-
+  
+  {% if section.settings.enable_sticky_header %}
+    
   .header-wrapper {
     background: transparent;
     --color-foreground: {{ section.settings.header_color.red }}, {{ section.settings.header_color.green }}, {{ section.settings.header_color.blue }};
@@ -133,6 +135,8 @@
   .shopify-section-header-sticky #sticky-header__logo {
     display: block;
   }
+  {% endif %}
+
 
   .section-header a[href="{{ section.settings.highlighted_text }}"]{
     background-color: {{section.settings.highlighted_color}};

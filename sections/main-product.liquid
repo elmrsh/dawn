@@ -7,6 +7,7 @@
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+  <link rel="stylesheet" href="{{ 'tabs-description.css' | asset_url }}">
 
   {%- style -%}
     .section-{{ section.id }}-padding {
@@ -242,9 +243,9 @@
             </div>
           {%- when 'description' -%}
             {%- if product.description != blank -%}
-              <div class="product__description rte quick-add-hidden">
-                {{ product.description }}
-              </div>
+              <tabs-description data-desktop="acordeon" class="acordeon">
+                {{- product.description -}}
+              </tabs-description>
             {%- endif -%}
           {%- when 'custom_liquid' -%}
             {{ block.settings.custom_liquid }}
@@ -636,6 +637,7 @@
     }
   </script>
 </section>
+<script src="{{ 'tabs-description.js' | asset_url }}" mode="module" defer></script>
 
 {% schema %}
 {
