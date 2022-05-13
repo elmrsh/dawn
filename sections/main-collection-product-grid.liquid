@@ -106,6 +106,21 @@
                 {%- if forloop.index > 2 -%}
                   {%- assign lazy_load = true -%}
                 {%- endif -%}
+                {% assign outerLoop = forloop.index %}
+                  {%  for block in section.blocks %}
+                      {% if outerLoop == block.settings.promo_position %}
+                        {% if block.type == 'promo-block' %}
+                        <li class="grid__item" {% if block.settings.full_width %} style="width: 100%; max-width: 100%;" {% endif %}>
+                            {% render 'promo-block', block: block,
+                            media_aspect_ratio: section.settings.image_ratio,
+                            show_secondary_image: section.settings.show_secondary_image,
+                            lazy_load: lazy_load,
+                            extend_height: true,
+                            %}
+                        </li>
+                        {% endif %}
+                      {% endif %}
+                  {% endfor %}
                 <li class="grid__item">
                   {% render 'card-product',
                     card_product: product,
@@ -286,6 +301,53 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "promo-block",
+      "name": "Promotion block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "secondary_image",
+          "label": "Secondary image",
+          "info": "Apply only when option is checked in collection settings"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget consectetur</p>"
+        },
+        {
+            "type": "number",
+            "id": "promo_position",
+            "label": "Position in grid",
+            "default": 1
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link"
+        },
+       {
+         "type": "checkbox",
+         "id": "full_width",
+         "label": "Full width",
+         "default": false
+       }
+      ]
     }
   ]
 }
