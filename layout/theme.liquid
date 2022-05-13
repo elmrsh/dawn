@@ -67,7 +67,7 @@
         --color-base-accent-1: {{ settings.colors_accent_1.red }}, {{ settings.colors_accent_1.green }}, {{ settings.colors_accent_1.blue }};
         --color-base-accent-2: {{ settings.colors_accent_2.red }}, {{ settings.colors_accent_2.green }}, {{ settings.colors_accent_2.blue }};
         --payment-terms-background-color: {{ settings.colors_background_1 }};
-
+        --back-to-top-bg-color: {{ settings.back_to_top_bg_color }};
         --gradient-base-background-1: {% if settings.gradient_background_1 != blank %}{{ settings.gradient_background_1 }}{% else %}{{ settings.colors_background_1 }}{% endif %};
         --gradient-base-background-2: {% if settings.gradient_background_2 != blank %}{{ settings.gradient_background_2 }}{% else %}{{ settings.colors_background_2 }}{% endif %};
         --gradient-base-accent-1: {% if settings.gradient_accent_1 != blank %}{{ settings.gradient_accent_1 }}{% else %}{{ settings.colors_accent_1 }}{% endif %};
@@ -94,7 +94,8 @@
         --card-shadow-horizontal-offset: {{ settings.card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
         --card-shadow-vertical-offset: {{ settings.card_shadow_vertical_offset | divided_by: 10.0 }}rem;
         --card-shadow-blur-radius: {{ settings.card_shadow_blur | divided_by: 10.0 }}rem;
-
+        --badge-gap: {{ settings.badge_gap | append: 'px'}};
+        --badge-flex: {{ settings.badge_alignment }};
         --badge-corner-radius: {{ settings.badge_corner_radius | divided_by: 10.0 }}rem;
 
         --popup-border-width: {{ settings.popup_border_thickness }}px;
@@ -293,5 +294,19 @@
       }
       instance()
     </script>
+    <style>
+      {% if settings.sold_out_badge_color_scheme == 'soldout-custom' %}
+        .color-{{ settings.sold_out_badge_color_scheme }} {
+          background-color: {{ settings.badges_custom_color_agotado }};
+          color: {{ settings.badges_custom_color_agotado_text }};
+        }
+      {% endif %}
+      {% if settings.sale_badge_color_scheme == 'sale-custom' %}
+        .color-{{ settings.sale_badge_color_scheme }} {
+          background-color: {{ settings.badges_custom_color_oferta }};
+          color: {{ settings.badges_custom_color_oferta_text }};
+        }
+      {% endif %}
+    </style>
   </body>
 </html>

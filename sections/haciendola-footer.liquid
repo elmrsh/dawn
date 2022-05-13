@@ -55,6 +55,8 @@
 {%- endstyle -%}
 
 <footer class="footer color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  
+  {%- if settings.back_to_top -%}<a href="#header-wrapper" id="backToTop"></a> {%- endif -%}
   {%- if section.blocks.size > 0 or section.settings.newsletter_enable or section.settings.show_social -%}
     <div class="footer__content-top page-width">
       {%- if section.blocks.size > 0 -%}
@@ -431,6 +433,20 @@
       if(content.style.maxHeight)content.style.maxHeight = null
       else content.style.maxHeight = content.scrollHeight + "px"
     })
+  })
+
+  const backToTopButton = document.querySelector('#backToTop')
+  backToTopButton.addEventListener('click', e => {
+      e.preventDefault()
+      const header = document.querySelector('.header-wrapper')
+      window.scrollTo(0,0)
+  })
+  window.addEventListener('scroll',() => {
+      if(window.scrollY >= window.innerHeight / 2) {
+          backToTopButton.classList.add('show')
+      } else {
+          backToTopButton.classList.remove('show')
+      }
   })
 {% endjavascript %}
 

@@ -83,6 +83,35 @@
         "id": "gradient_background_2",
         "type": "color_background",
         "label": "t:settings_schema.colors.settings.gradient_background_2.label"
+      },
+      {
+        "type": "header",
+        "content": "Badges",
+        "info": "Color para los badges Agotado y Oferta"
+      },
+      {
+        "id": "badges_custom_color_oferta",
+        "type": "color",
+        "label": "Color del badge Oferta",
+        "default": "#334FB4"
+      },
+      {
+        "id": "badges_custom_color_oferta_text",
+        "type": "color",
+        "label": "Color del texto",
+        "default": "#FFFFFF"
+      },
+      {
+        "id": "badges_custom_color_agotado",
+        "type": "color",
+        "label": "Color del badge Agotado",
+        "default": "#c49a6b"
+      },
+      {
+        "id": "badges_custom_color_agotado_text",
+        "type": "color",
+        "label": "Color del texto",
+        "default": "#FFFFFF"
       }
     ]
   },
@@ -266,6 +295,22 @@
         "unit": "px",
         "label": "t:settings_schema.global.settings.blur.label",
         "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Back to top button"
+      },
+      {
+        "type": "checkbox",
+        "id": "back_to_top",
+        "label": "Enable back to top button",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "back_to_top_bg_color",
+        "label": "Background color",
+        "default": "#000"
       }
     ]
   },
@@ -956,6 +1001,32 @@
         "default": 40
       },
       {
+        "type": "range",
+        "id": "badge_gap",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "label": "Gap between badges",
+        "default": 5
+      },
+      {
+        "type": "select",
+        "id": "badge_alignment",
+        "label": "Badge alignment",
+        "options": [
+          {
+            "value": "column",
+            "label": "Column"
+          },
+          {
+            "value": "row",
+            "label": "Row"
+          }
+        ],
+        "default": "column"
+      },
+      {
         "type": "select",
         "id": "sale_badge_color_scheme",
         "options": [
@@ -970,10 +1041,15 @@
           {
             "value": "background-2",
             "label": "t:sections.all.colors.background_2.label"
+          },
+          {
+            "value": "sale-custom",
+            "label": "Custom color"
           }
         ],
         "default": "accent-2",
-        "label": "t:settings_schema.badges.settings.sale_badge_color_scheme.label"
+        "label": "Sale badge color scheme",
+        "info": "Si se elige custom, cambiar el color en la configuracion del tema, en la seccion de Colores"
       },
       {
         "type": "select",
@@ -986,10 +1062,15 @@
           {
             "value": "inverse",
             "label": "t:sections.all.colors.inverse.label"
+          },
+          {
+            "value": "soldout-custom",
+            "label": "Custom color"
           }
         ],
         "default": "inverse",
-        "label": "t:settings_schema.badges.settings.sold_out_badge_color_scheme.label"
+        "label": "Sold out badge color scheme",
+        "info": "Si se elige custom, cambiar el color en la configuracion del tema, en la seccion de Colores"
       }
     ]
   },

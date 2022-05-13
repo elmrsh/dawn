@@ -93,9 +93,23 @@
           </div>
           <div class="card__badge {{ settings.badge_position }}">
             {%- if card_product.available == false -%}
-              <span class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}">{{ 'products.product.sold_out' | t }}</span>
+              <span class="badge {{ settings.badge_position }} color-{{ settings.sold_out_badge_color_scheme }}">{{ 'products.product.sold_out' | t }}</span>
             {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
-              <span class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}">{{ 'products.product.on_sale' | t }}</span>
+              <span class="badge {{ settings.badge_position }} color-{{ settings.sale_badge_color_scheme }}">{{ 'products.product.on_sale' | t }}</span>
+            {% else %}
+              {% for tag in card_product.tags %}
+                {% if tag contains 'etiqueta_' %}
+                  {% assign parts = tag | split: '_' %}
+                  {% assign texto = parts[1] %}
+                  {% assign bgColor = parts[2] %}
+                  {% assign textColor = parts[3] %}
+                  <div class="badge" style="display: inline-block;
+                  {% unless bgColor == blank %}background: {{ bgColor }};{% endunless %}
+                          {% unless textColor == blank %}color: {{ textColor }};{% endunless %}">
+                    {{ texto }}
+                  </div>
+                {% endif %}
+              {% endfor %}
             {%- endif -%}
           </div>
         </div>
