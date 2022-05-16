@@ -15,12 +15,7 @@
   #slide-{{ section.id }} .slideshow__slide p {
     margin: 0;
   }
-  #slide-{{ section.id }} #Slide-{{ section.id }}-{{ forloop.index }} .slideshow__media--desktop-banner {
-    display: none;
-  }
-  #slide-{{ section.id }} #Slide-{{ section.id }}-{{ forloop.index }} .slideshow__media--mobile-banner {
-    display: block;
-  }
+
   #slide-{{ section.id }}  .slideshow__slide {
     padding-bottom: 50px;
   }
@@ -50,15 +45,21 @@
     #slide-{{ section.id }} #Slide-{{ section.id }}-{{ forloop.index }} .slideshow__text .banner__text {
       line-height: 1.5;
     }
-    #slide-{{ section.id }} #Slide-{{ section.id }}-{{ forloop.index }} .banner__buttons .button{
-      --color-button: {{block.settings.button_color.red}}, {{ block.settings.button_color.green}}, {{ block.settings.button_color.blue }};
-      color: {{ block.settings.button_text_color }} !important ;
-    }
-    #slide-{{ section.id }} #Slide-{{ section.id }}-{{ forloop.index }} .banner__buttons .link{
-      color: {{ block.settings.button_text_color }} !important ;
+    
+    {% if block.settings.button_color != blank %}
+      #slide-{{ section.id }} #Slide-{{ section.id }}-{{ forloop.index }} .banner__buttons .button{
+        --color-button: {{block.settings.button_color.red}}, {{ block.settings.button_color.green}}, {{ block.settings.button_color.blue }};
+        color: {{ block.settings.button_text_color }} !important ;
+      }
+    {% endif %}
 
-    }
+    {% if block.settings.button_text_color %}
+      #slide-{{ section.id }} #Slide-{{ section.id }}-{{ forloop.index }} .banner__buttons .link{
+        color: {{ block.settings.button_text_color }} !important ;
+      }
+    {% endif %}
 
+    
     #slide--block-{{ block.id }} .banner__preheading {
         font-size: {{ block.settings.preheading_mobile_size}}px;
     }
@@ -79,6 +80,9 @@
       border-radius: {{ block.settings.border_radius }}px;
     }
 
+    #slide-{{ section.id }} #Slide-{{ section.id }}-{{ forloop.index }} .slideshow__media--desktop-banner {
+      display: none;
+    }
 
     @media screen and (min-width: 750px) {
       #slide-{{ section.id }} #Slide-{{ section.id }}-{{ forloop.index }} .slideshow__media--desktop-banner {
@@ -124,15 +128,20 @@
       #slide--block-{{ block.id }} .banner__buttons {
         flex-direction: {{ block.settings.button_vertical_alignment}};
       }
-    }
-  {% endfor %}
-  @media screen and (max-width: 500px) {
-    {% for block in section.blocks %}
-    #slide-{{ section.id }} #Slide-{{ section.id }}-{{ forloop.index }} .slideshow__text .banner__text {
-      font-size: 1.5rem !important;
+
     }
     {% endfor %}
-  }
+    @media screen and (max-width: 500px) {
+      #Slider-{{ section.id }} .banner__box .banner__buttons {
+        width: 100%;
+      }
+
+      #Slider-{{ section.id }} .banner__box .banner__buttons .button{
+        width: 100%;
+        max-width: 175px;
+      }
+
+    }
 </style>
 
 {%- if section.settings.slide_height == 'adapt_image' and section.blocks.first.settings.image != blank -%}
@@ -690,7 +699,7 @@
           "type": "range",
           "id": "subheading_mobile_size_override",
           "label": "Subheading mobile size",
-          "default": 1,
+          "default": 0.5,
           "step": 0.5,
           "max": 20,
           "min": 0,
@@ -754,14 +763,12 @@
         {
           "type": "color",
           "id": "button_color",
-          "label": "Button color",
-          "default": "#fff"
+          "label": "Button color"
         },
         {
           "type": "color",
           "id": "button_text_color",
-          "label": "Button text color",
-          "default": "#000"
+          "label": "Button text color"
         },
         {
           "type": "select",
@@ -777,7 +784,8 @@
               "label": "Column"
             }
           ],
-          "default": "row"
+          "default": "row",
+          "info": "Only works in desktop"
         },
         {
           "type": "select",
