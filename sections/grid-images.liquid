@@ -173,7 +173,7 @@
             loading="lazy"
           >
         {% else %}
-          {{ 'image' | placeholder_svg_tag }}
+          {{ 'product-6' | placeholder_svg_tag: 'placeholder-svg' }}
         {% endif %}
         <div class="five-images--button-container {{ block.settings.button_position}}">
           <div class="five-images--text-container">
@@ -233,8 +233,7 @@
         {
           "type": "richtext",
           "id": "preheading",
-          "label": "Preheading",
-          "default": "<p>Preheading</p>"
+          "label": "Preheading"
         },
         {
           "type": "range",
@@ -259,8 +258,7 @@
         {
           "type": "textarea",
           "id": "heading",
-          "label": "Heading",
-          "default": "Heading"
+          "label": "Heading"
         },
         {
           "type": "range",
@@ -294,8 +292,7 @@
         {
           "type": "text",
           "id": "button_text",
-          "label": "Button text",
-          "default": "Button"
+          "label": "Button text"
         },
         {
           "type": "color",
