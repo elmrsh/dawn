@@ -115,7 +115,7 @@
 
 <div class="logo-list {% unless section.settings.fullwidth %}page-width{% endunless %}">
   <h1 class="h2">{{ section.settings.heading }}</h1>
-  <div id="section-{{ section.id }}" data-speed="{{section.settings.autoplay_speed | append: '0'}}">
+  <div id="section-{{ section.id }}" data-speed="{{section.settings.autoplay_speed | append: '000'}}">
     <div class="swiper-wrapper">
       {% for block in section.blocks %}
         <div class="swiper-slide">
@@ -154,8 +154,7 @@
   const disableOnHover = {{ section.settings.pause_hover }}
   const enableLoop = {{ section.settings.enable_loop }}
   const paginationStyle = '{{ section.settings.pagination_style }}'
-  console.log(paginationStyle)
-  console.log(enableAutoplay)
+
   const swiper = new Swiper(slider,{
     slidesPerView: 1,
     navigation: {
@@ -219,11 +218,11 @@
       "type": "range",
       "id": "autoplay_speed",
       "label": "Autoplay speed",
-      "unit": "ms",
-      "min": 100,
-      "max": 1000,
-      "step": 100,
-      "default": 100
+      "unit": "s",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3
     },
     {
       "type": "checkbox",

@@ -110,7 +110,8 @@
 </section>
 
 <script type="module" defer>
-    import Swiper from 'https://unpkg.com/swiper@8/swiper-bundle.esm.browser.min.js'
+    import Swiper from "{{ 'swiper-bundle.esm.browser.min.js' | asset_url }}"
+    
     const swiper = new Swiper('#collection_slider--carousel', {
     // Optional parameters
     slidesPerView: 1,

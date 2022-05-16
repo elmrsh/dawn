@@ -271,7 +271,8 @@
     {%- endif -%}
 
     <script type="module">
-      import Swiper from 'https://unpkg.com/swiper@8/swiper-bundle.esm.browser.min.js'
+      import Swiper from "{{ 'swiper-bundle.esm.browser.min.js' | asset_url }}"
+      
       const instance = () => {
           const bar = document.querySelector('#announcement-swiper')
           if(!bar) return

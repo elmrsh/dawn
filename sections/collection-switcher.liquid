@@ -204,7 +204,8 @@
   }
   toggleActive()
 
-  import Swiper from 'https://unpkg.com/swiper@8/swiper-bundle.esm.browser.min.js'
+  import Swiper from "{{ 'swiper-bundle.esm.browser.min.js' | asset_url }}"
+  
   const carrouselOne = new Swiper('.collectionOne-swiper', {
     slidesPerView: 1,
     breakpoints: {

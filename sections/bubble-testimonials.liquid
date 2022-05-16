@@ -1,6 +1,8 @@
 {% style %}
 .section-testimonial {
-  background-image: linear-gradient(rgba(0,0,0,{{ section.settings.bg_opacity }}), rgba(0,0,0,{{ section.settings.bg_opacity }})),url('{{ section.settings.bg_image| img_url: 'master'}}');
+  {% if section.settings.bg_image != blank %}
+    background-image: linear-gradient(rgba(0,0,0,{{ section.settings.bg_opacity }}), rgba(0,0,0,{{ section.settings.bg_opacity }})),url('{{ section.settings.bg_image| img_url: 'master'}}');
+  {% endif %}
 	background-color: {{section.settings.testimonial_bgcolor}};
   background-repeat: no-repeat;
   background-size: cover;
