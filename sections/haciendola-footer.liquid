@@ -429,7 +429,6 @@
     collapsible.addEventListener('click', () => {
       collapsible.classList.toggle('active')
       const content = collapsible.nextElementSibling;
-      console.log(content, collapsible)
       if(content.style.maxHeight)content.style.maxHeight = null
       else content.style.maxHeight = content.scrollHeight + "px"
     })

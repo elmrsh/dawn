@@ -118,7 +118,7 @@
   <div id="section-{{ section.id }}" data-speed="{{section.settings.autoplay_speed | append: '000'}}">
     <div class="swiper-wrapper">
       {% for block in section.blocks %}
-        <div class="swiper-slide">
+        <div class="swiper-slide" {{ block.shopify_attributes }}>
           <div class="logo-list--item" style="background: {{ block.settings.background }}">
             {% if block.settings.image != blank %}
             <a href="{{ block.settings.link }}" {% if section.settings.target_blank %} target="_blank" {% endif %}>

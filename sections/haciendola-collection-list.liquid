@@ -84,7 +84,7 @@
       {%- if section.settings.swipe_on_mobile -%}
         <div class="slider-buttons no-js-hidden{% if section.blocks.size < 5 %} medium-hide{% endif %}{% if section.blocks.size < 2 %} small-hide{% endif %}">
           <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="{{ 'general.slider.previous_slide' | t }}">{% render 'icon-caret' %}</button>
-          <div class="slider-counter caption">
+          <div class="slider-counter caption" data-pagination="{{ section.settings.slider_visual }}">
             <span class="slider-counter--current">1</span>
               <span aria-hidden="true"> / </span>
               <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
@@ -110,6 +110,27 @@
   "class": "section section-collection-list",
   "max_blocks": 15,
   "settings": [
+    {
+      "type": "select",
+      "id": "slider_visual",
+      "options": [
+        {
+          "value": "dots",
+          "label": "t:sections.slideshow.settings.slider_visual.options__2.label"
+        },
+        {
+          "value": "counter",
+          "label": "t:sections.slideshow.settings.slider_visual.options__1.label"
+        },
+        {
+          "value": "numbers",
+          "label": "t:sections.slideshow.settings.slider_visual.options__3.label"
+        }
+      ],
+      "default": "counter",
+      "label": "t:sections.slideshow.settings.slider_visual.label",
+      "info": "Will only show with Dawn style arrows "
+    },
     {
       "type": "text",
       "id": "title",
