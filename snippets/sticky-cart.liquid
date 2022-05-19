@@ -21,6 +21,10 @@
     padding: 1rem 0;
   }
 
+  .spo-variants__container p {
+    margin: 0;
+    padding: 0;
+  }
 
   
   @media only screen and (min-width: 800px) {
@@ -258,7 +262,18 @@
     .purchase-details {
       display: none;
     }
+
+   #quantity-container input::-webkit-outer-spin-button,
+   #quantity-container input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
+
+  /* Firefox */
+  #quantity-container input[type=number] {
+    -moz-appearance: textfield;
+  }
+}
   </style>
   <sticky-product-options class="spo" data-bp="768">
     <div class="sticky-product-container">
