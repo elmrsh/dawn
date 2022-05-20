@@ -513,9 +513,9 @@
     </div>
   </div>
 
-  {% unless section.settings.enable_sticky %}
-    {% render 'sticky-cart' %}
-  {% endunless %}
+  {% if section.settings.enable_stickyAddToCart %}
+    {% render 'sticky-cart', section: section %}
+  {% endif %}
 
   <product-modal id="ProductModal-{{ section.id }}" class="product-media-modal media-modal">
     <div class="product-media-modal__dialog" role="dialog" aria-label="{{ 'products.modal.label' | t }}" aria-modal="true" tabindex="-1">
@@ -1084,12 +1084,6 @@
   "settings": [
     {
       "type": "checkbox",
-      "id": "enable_sticky",
-      "label": "Hide sticky cart",
-      "default": true
-    },
-    {
-      "type": "checkbox",
       "id": "enable_sticky_info",
       "default": true,
       "label": "t:sections.main-product.settings.enable_sticky_info.label"
@@ -1191,6 +1185,62 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
+    },
+    {
+      "type": "header",
+      "content": "STICKY ADD TO CART"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_stickyAddToCart",
+      "label": "Enable sticky add to cart",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_content",
+      "label": "Enable content (price and title)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_title",
+      "label": "Enable product title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_price",
+      "label": "Enable product price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_image",
+      "label": "Enable product image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sacQuantity",
+      "label": "Enable quantity selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sacVariants",
+      "label": "Show variants",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "sticky-atc_horizontal-padding",
+      "label": "Horizontal spacing",
+      "unit": "px",
+      "min": 10,
+      "max": 150,
+      "step": 10,
+      "default": 20
     }
   ]
 }
