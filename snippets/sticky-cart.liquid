@@ -18,8 +18,10 @@
     width: 95%;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 1rem 0;
   }
 
+<<<<<<< HEAD
   
   .sticky-product-container input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
@@ -29,6 +31,11 @@
 
   .sticky-product-container input[type=number] {
     -moz-appearance: textfield;
+=======
+  .spo-variants__container p {
+    margin: 0;
+    padding: 0;
+>>>>>>> e485e07a857d3662f666f54ed9d8da908388c28d
   }
 
   
@@ -267,7 +274,18 @@
     .purchase-details {
       display: none;
     }
+
+   #quantity-container input::-webkit-outer-spin-button,
+   #quantity-container input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
+
+  /* Firefox */
+  #quantity-container input[type=number] {
+    -moz-appearance: textfield;
+  }
+}
   </style>
   <sticky-product-options class="spo" data-bp="768">
     <div class="sticky-product-container">
