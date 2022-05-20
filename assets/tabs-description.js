@@ -3,13 +3,12 @@ const TEXT_NODE = 3
 class TabsNavigator extends HTMLElement {
   constructor() {
     super();
-    this.onlyTags = false
-    this.acceptedTags = ['IFRAME', 'IMG']
-    const BP = this.getAttribute("data-bp")
-      ? parseInt(this.getAttribute("data-bp"))
-      : 640;
-    this.desktop = this.getAttribute("data-desktop") || "acordeon";
-    this.mobile = this.getAttribute("data-mobile") || "acordeon";
+    this.onlyTabs = this.dataset.onlyTabs == 'true'
+    this.tabTitle = this.dataset.tabTitle
+    this.defaultActive = this.dataset.defaultActive == 'true'
+    const BP = 750;
+    this.desktop = this.dataset.desktop || "acordeon";
+    this.mobile = this.dataset.mobile || "acordeon";
     this.container = document.createElement("div");
     
     this.container.classList.add("tabs-navigator");
@@ -49,7 +48,7 @@ class TabsNavigator extends HTMLElement {
     this.parse();
 
     const setDesign = () => {
-      if (this.desktop === this.mobile) return false;
+      if (this.desktop === this.mobile) return this.classList.add(this.desktop);
       if (window.innerWidth > BP) {
         console.log("Seteamos desktop");
         this.classList.add(this.desktop);
@@ -71,8 +70,8 @@ class TabsNavigator extends HTMLElement {
   parse() {
     if(this.onlyTabs) {
    		const heading = document.createElement('h5')
-    	heading.textContent = 'Descripción'
-    	this.insertAdjacentElement('afterbegin',heading)
+    	heading.textContent = this.tabTitle
+      if(!this.childNodes[0].tagName || this.childNodes[0].tagName != 'H5') this.insertAdjacentElement('afterbegin',heading)
     }
 
     let tabs = false;
@@ -121,7 +120,7 @@ class TabsNavigator extends HTMLElement {
     });
     if(this.tabs.length <= 1) return
     const first = this.tabsNavigator.querySelector("a");
-//     if (first) first.click();
+    if (first && this.defaultActive) first.click();
 
   }
 }

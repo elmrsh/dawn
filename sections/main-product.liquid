@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="{{ 'tabs-description.css' | asset_url }}">
+
 <section id="MainProduct-{{ section.id }}" class="page-width section-{{ section.id }}-padding" data-section="{{ section.id }}">
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
@@ -7,7 +9,7 @@
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
-  <link rel="stylesheet" href="{{ 'tabs-description.css' | asset_url }}">
+
 
   {%- style -%}
     .section-{{ section.id }}-padding {
@@ -242,11 +244,15 @@
               {%- endform -%}
             </div>
           {%- when 'description' -%}
-            {%- if product.description != blank -%}
-              <tabs-description data-desktop="acordeon" class="acordeon">
-                {{- product.description -}}
-              </tabs-description>
-            {%- endif -%}
+          {%- if product.description != blank and block.settings.show_tabs-%}
+            <tabs-description data-default-active="{{ block.settings.default_active }}" data-tab-title="{{ block.settings.tab_title }}" data-mobile="{{ block.settings.tabs_type_mobile }}" data-desktop="{{ block.settings.tabs_type}}" data-only-tabs="{{ block.settings.only_tabs }}">
+              {{- product.description -}}
+            </tabs-description>
+          {% elsif product.description != blank %}
+            <div class="product__description rte quick-add-hidden">
+              {{ product.description }}
+            </div>
+          {%- endif -%}
           {%- when 'custom_liquid' -%}
             {{ block.settings.custom_liquid }}
           {%- when 'collapsible_tab' -%}
@@ -739,7 +745,72 @@
     {
       "type": "description",
       "name": "t:sections.main-product.blocks.description.name",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_tabs",
+          "label": "Show custom tabs",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "tabs_type",
+          "label": "Tabs styles",
+          "options": [
+            {
+              "value": "acordeon",
+              "label": "Acordeon"
+            },
+            {
+              "value": "tabs",
+              "label": "Tabs"
+            },
+            {
+              "value": "fit",
+              "label": "Fit"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "tabs_type_mobile",
+          "label": "Tabs styles mobile",
+          "options": [
+            {
+              "value": "acordeon",
+              "label": "Acordeon"
+            },
+            {
+              "value": "tabs",
+              "label": "Tabs"
+            },
+            {
+              "value": "fit",
+              "label": "Fit"
+            }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "id": "only_tabs",
+          "label": "Forzar tabs",
+          "default": false,
+          "info": "Crea una tab para el contenido inicial que no este bajo un h5"
+        },
+        {
+          "type": "text",
+          "id": "tab_title",
+          "label": "Titulo del tab (forzado)",
+          "default": "Descripción"
+        },
+       {
+         "type": "checkbox",
+         "id": "default_active",
+         "label": "Desplegar tab por defecto",
+         "default": true
+       }
+      ]
     },
     {
       "type": "share",
