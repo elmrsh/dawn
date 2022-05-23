@@ -1271,5 +1271,82 @@
         "info": "t:settings_schema.cart.settings.cart_drawer.collection.info"
       }
     ]
+  },
+  {
+    "name": "Haciendola - Extras",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Tag settings"
+      },
+      {
+        "type": "text",
+        "id": "tag_name1",
+        "label": "Nombre del tag"
+      },
+      {
+        "type": "color",
+        "id": "tag_bgcolor1",
+        "label": "Tag background color",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "tag_textcolor1",
+        "label": "Tag text color",
+        "default": "#000"
+      },
+      {
+        "type": "text",
+        "id": "tag_name2",
+        "label": "Nombre del tag"
+      },
+      {
+        "type": "color",
+        "id": "tag_bgcolor2",
+        "label": "Tag background color",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "tag_textcolor2",
+        "label": "Tag text color",
+        "default": "#000"
+      },
+      {
+        "type": "text",
+        "id": "tag_name3",
+        "label": "Nombre del tag"
+      },
+      {
+        "type": "color",
+        "id": "tag_bgcolor3",
+        "label": "Tag background color",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "tag_textcolor3",
+        "label": "Tag text color",
+        "default": "#000"
+      },
+      {
+        "type": "text",
+        "id": "tag_name4",
+        "label": "Nombre del tag"
+      },
+      {
+        "type": "color",
+        "id": "tag_bgcolor4",
+        "label": "Tag background color",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "tag_textcolor4",
+        "label": "Tag text color",
+        "default": "#000"
+      }
+    ]
   }
 ]

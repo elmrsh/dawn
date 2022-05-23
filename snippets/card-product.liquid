@@ -98,15 +98,24 @@
               <span class="badge {{ settings.badge_position }} color-{{ settings.sale_badge_color_scheme }}">{{ 'products.product.on_sale' | t }}</span>
             {% else %}
               {% for tag in card_product.tags %}
-                {% if tag contains 'etiqueta_' %}
-                  {% assign parts = tag | split: '_' %}
-                  {% assign texto = parts[1] %}
-                  {% assign bgColor = parts[2] %}
-                  {% assign textColor = parts[3] %}
-                  <div class="badge" style="display: inline-block;
-                  {% unless bgColor == blank %}background: {{ bgColor }};{% endunless %}
-                          {% unless textColor == blank %}color: {{ textColor }};{% endunless %}">
-                    {{ texto }}
+                {% if tag == settings.tag_name1 %}
+                  <div class="badge" style="display: inline-block; background: {{ settings.tag_bgcolor1 }}; color: {{ settings.tag_textcolor1 }}; border-color: {{ settings.tag_bgcolor1 }};">
+                    {{ tag }}
+                  </div>
+                {% endif %}
+                {% if tag == settings.tag_name2 %}
+                  <div class="badge" style="display: inline-block; background: {{ settings.tag_bgcolor2 }}; color: {{ settings.tag_textcolor2 }}; border-color: {{ settings.tag_bgcolor2 }};">
+                    {{ tag }}
+                  </div>
+                {% endif %}
+                {% if tag == settings.tag_name3 %}
+                  <div class="badge" style="display: inline-block; background: {{ settings.tag_bgcolor3 }}; color: {{ settings.tag_textcolor3 }}; border-color: {{ settings.tag_bgcolor3 }};">
+                    {{ tag }}
+                  </div>
+                {% endif %}
+                {% if tag == settings.tag_name4 %}
+                  <div class="badge" style="display: inline-block; background: {{ settings.tag_bgcolor4 }}; color: {{ settings.tag_textcolor4 }}; border-color: {{ settings.tag_bgcolor4 }};">
+                    {{ tag }}
                   </div>
                 {% endif %}
               {% endfor %}
