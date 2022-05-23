@@ -112,7 +112,7 @@
                     {%- when 'promo-block' -%}
                       {% if outerLoop == block.settings.promo_position %}
                         {% if block.type == 'promo-block' %}
-                        <li class="grid__item" {% if block.settings.full_width %} style="width: 100%; max-width: 100%;" {% endif %}>
+                        <li class="grid__item">
                             {% render 'promo-block', block: block,
                             media_aspect_ratio: section.settings.image_ratio,
                             show_secondary_image: section.settings.show_secondary_image,
@@ -133,6 +133,7 @@
                             extend_height: true,
                             %}
                         </li>
+                        {{ outerLoop }}
                         {% endif %}
                       {% endif %}
                     {%- when 'promo-block-video' -%}
@@ -364,18 +365,12 @@
           "type": "url",
           "id": "link_url",
           "label": "Link"
-        },
-       {
-         "type": "checkbox",
-         "id": "full_width",
-         "label": "Full width",
-         "default": false
-       }
+        }
       ]
     },
     {
       "type": "fw-promo-block",
-      "name": "FW-Promotion block",
+      "name": "Full width block",
       "settings": [
         {
           "type": "image_picker",
@@ -466,7 +461,7 @@
         {
           "type": "number",
           "id": "promo_position",
-          "label": "Position in grid",
+          "label": "Column in grid",
           "default": 1
         },
         {
@@ -488,27 +483,45 @@
       "name": "Video Promotion block",
       "settings": [
         {
-          "type": "text",
-          "id": "heading",
-          "label": "Section heading"
-        },
-        {
           "type": "url",
           "id": "shopify_video",
           "label": "Shopify Video"
         },
         {
-          "type": "checkbox",
-          "id": "shopify_video_loop",
-          "label": "Enable video loop",
-          "default": false,
-          "info": "Only applies to shopify video"
+          "type": "range",
+          "id": "video_height",
+          "label": "Video height",
+          "unit": "px",
+          "min": 200,
+          "max": 500,
+          "step": 25,
+          "default": 350
         },
         {
           "type": "number",
           "id": "promo_position",
           "label": "Position in grid",
           "default": 1
+        },
+        {
+          "type": "header",
+          "content": "Content settings"
+        },
+        {
+          "type": "textarea",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#FFF"
         }
       ]
     }
