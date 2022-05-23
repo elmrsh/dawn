@@ -991,42 +991,6 @@
         "label": "t:settings_schema.badges.settings.position.label"
       },
       {
-        "type": "range",
-        "id": "badge_corner_radius",
-        "min": 0,
-        "max": 40,
-        "step": 2,
-        "unit": "px",
-        "label": "t:settings_schema.global.settings.corner_radius.label",
-        "default": 40
-      },
-      {
-        "type": "range",
-        "id": "badge_gap",
-        "min": 0,
-        "max": 10,
-        "step": 1,
-        "unit": "px",
-        "label": "Gap between badges",
-        "default": 5
-      },
-      {
-        "type": "select",
-        "id": "badge_alignment",
-        "label": "Badge alignment",
-        "options": [
-          {
-            "value": "column",
-            "label": "Column"
-          },
-          {
-            "value": "row",
-            "label": "Row"
-          }
-        ],
-        "default": "column"
-      },
-      {
         "type": "select",
         "id": "sale_badge_color_scheme",
         "options": [
@@ -1277,75 +1241,125 @@
     "settings": [
       {
         "type": "header",
-        "content": "Tag settings"
+        "content": "Tag name and color settings",
+        "info": "Custom tags for products"
       },
       {
         "type": "text",
         "id": "tag_name1",
-        "label": "Nombre del tag"
+        "label": "Tag name 1"
       },
       {
         "type": "color",
         "id": "tag_bgcolor1",
-        "label": "Tag background color",
+        "label": "Tag background color 1",
         "default": "#fff"
       },
       {
         "type": "color",
         "id": "tag_textcolor1",
-        "label": "Tag text color",
+        "label": "Tag text color 1",
         "default": "#000"
       },
       {
         "type": "text",
         "id": "tag_name2",
-        "label": "Nombre del tag"
+        "label": "Tag name 2"
       },
       {
         "type": "color",
         "id": "tag_bgcolor2",
-        "label": "Tag background color",
+        "label": "Tag background color 2",
         "default": "#fff"
       },
       {
         "type": "color",
         "id": "tag_textcolor2",
-        "label": "Tag text color",
+        "label": "Tag text color 2",
         "default": "#000"
       },
       {
         "type": "text",
         "id": "tag_name3",
-        "label": "Nombre del tag"
+        "label": "Tag name 3"
       },
       {
         "type": "color",
         "id": "tag_bgcolor3",
-        "label": "Tag background color",
+        "label": "Tag background color 3",
         "default": "#fff"
       },
       {
         "type": "color",
         "id": "tag_textcolor3",
-        "label": "Tag text color",
+        "label": "Tag text color 3",
         "default": "#000"
       },
       {
         "type": "text",
         "id": "tag_name4",
-        "label": "Nombre del tag"
+        "label": "Tag name 4"
       },
       {
         "type": "color",
         "id": "tag_bgcolor4",
-        "label": "Tag background color",
+        "label": "Tag background color 4",
         "default": "#fff"
       },
       {
         "type": "color",
         "id": "tag_textcolor4",
-        "label": "Tag text color",
+        "label": "Tag text color 4",
         "default": "#000"
+      },
+      {
+        "type": "header",
+        "content": "Tags border radius"
+      },
+      {
+        "type": "range",
+        "id": "badge_corner_radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.corner_radius.label",
+        "default": 40
+      },
+      {
+        "type": "header",
+        "content": "Tags gap settings",
+        "info": "Separation between tags"
+      },
+      {
+        "type": "range",
+        "id": "badge_gap",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "label": "Gap between badges",
+        "default": 5
+      },
+      {
+        "type": "header",
+        "content": "Tags alignment"
+      },
+      {
+        "type": "select",
+        "id": "badge_alignment",
+        "label": "Badge alignment",
+        "options": [
+          {
+            "value": "column",
+            "label": "Column"
+          },
+          {
+            "value": "row",
+            "label": "Row"
+          }
+        ],
+        "default": "column"
       }
     ]
   }
