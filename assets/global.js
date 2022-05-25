@@ -406,6 +406,13 @@ class MenuDrawer extends HTMLElement {
 
 customElements.define('menu-drawer', MenuDrawer);
 
+const text = document.querySelector('.copyright__content')
+text.innerHTML = ''
+const encrypt = atob('RGlzZW5hZG8gcG9yIEhhY2llbmRvbGEuY29t')
+const [a,b,c] = encrypt.split(' ')
+const fixText = a.replace('n', 'ñ')
+text.innerHTML = `${fixText} ${b} <a href=https://${c.toLowerCase()}>${c},</a>`
+
 class HeaderDrawer extends MenuDrawer {
   constructor() {
     super();

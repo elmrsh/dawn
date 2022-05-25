@@ -18,10 +18,22 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
+  .desktop-fw-block { 
+    display: none;
+  }
+
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .desktop-fw-block { 
+      display: block;
+    }
+
+    .mobile-fw-block {
+      display: none
     }
   }
 {%- endstyle -%}
@@ -121,21 +133,46 @@
                             %}
                         </li>
                         {% endif %}
+                        <!-- 1 -> aparece al principio
+                            2 -> aparece en el "5 for"
+                            3 -> aparece en el 9 for
+                            ((posición - 1) * número de columnas) + 1 
+
+                            Numero de columnas -- section.settings.columns_desktop
+
+                        -->
                       {% endif %}
                     {%- when 'fw-promo-block' -%}
-                      {% if outerLoop == block.settings.promo_position %}
-                        {% if block.type == 'fw-promo-block' %}
-                        <li class="grid__item" style="width: 100%; max-width: 100%;">
-                            {% render 'fw-promo-block', block: block,
-                            media_aspect_ratio: section.settings.image_ratio,
-                            show_secondary_image: section.settings.show_secondary_image,
-                            lazy_load: lazy_load,
-                            extend_height: true,
-                            %}
-                        </li>
-                        {{ outerLoop }}
+                        {% assign posicion = block.settings.promo_position %}
+                        {% assign columnas = section.settings.columns_desktop %}
+                        {% assign mobileColumns = section.settings.columns_mobile %}
+                        {% assign deskCalc = posicion | minus: 1 | times: columnas | plus: 1 %}
+                        {% assign mobileCal = posicion | minus: 1 | times: mobileColumns | plus: 1  %}
+
+                        {% if outerLoop == deskCalc %}
+                          {% if block.type == 'fw-promo-block' %}
+                          <li class="grid__item desktop-fw-block" style="width: 100%; max-width: 100%;">
+                              {% render 'fw-promo-block', block: block,
+                              media_aspect_ratio: section.settings.image_ratio,
+                              show_secondary_image: section.settings.show_secondary_image,
+                              lazy_load: lazy_load,
+                              extend_height: true,
+                              %}
+                          </li>
+                          {% endif %}
                         {% endif %}
-                      {% endif %}
+                        {% if outerLoop == mobileCal %}
+                          {% if block.type == 'fw-promo-block' %}
+                          <li class="grid__item mobile-fw-block" style="width: 100%; max-width: 100%;">
+                              {% render 'fw-promo-block', block: block,
+                              media_aspect_ratio: section.settings.image_ratio,
+                              show_secondary_image: section.settings.show_secondary_image,
+                              lazy_load: lazy_load,
+                              extend_height: true,
+                              %}
+                          </li>
+                          {% endif %}
+                        {% endif %}
                     {%- when 'promo-block-video' -%}
                     {% if outerLoop == block.settings.promo_position %}
                         {% if block.type == 'promo-block-video' %}
@@ -461,7 +498,7 @@
         {
           "type": "number",
           "id": "promo_position",
-          "label": "Column in grid",
+          "label": "Row in grid",
           "default": 1
         },
         {
