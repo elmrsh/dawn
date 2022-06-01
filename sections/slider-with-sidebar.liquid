@@ -18,6 +18,7 @@
   }
 
   .collection_slider--carousel {
+    height: 100%;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -49,6 +50,12 @@
 
   .collection_slider--carousel .swiper-slide li {
     list-style: none;
+  }
+
+  @media screen and (max-width: 500px) {
+    .collection_slider--carousel .swiper-slide li {
+      padding: 30px;
+    }
   }
 
   .collection_slider .collection_slider--carousel .swiper-button-next,
