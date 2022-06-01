@@ -1,7 +1,6 @@
 class StickyProductOptions extends HTMLElement {
   constructor() {
     super();
-    console.log('Renderizamos el elemento')
     this.printSelectors()
     this.modalClass = 'confirm'
     this.BP = parseInt(this.dataset.bp||768)
@@ -51,7 +50,6 @@ class StickyProductOptions extends HTMLElement {
     if(!this.viewportWrapper) return
     const initSwiper = async () => {
       this.viewportWrapper.classList.add('swiper-wrapper')
-      console.log('inicializamos',this.viewportWrapper)
       const {Swiper} = await import(window.SwiperRoute)
       this.swiper = new Swiper(this.viewport,{
         slidesPerView: 'auto',
@@ -68,7 +66,6 @@ class StickyProductOptions extends HTMLElement {
     }
     const validate = () => {
       destroySwiper()
-      console.log('size', window.innerWidth)
       if(window.innerWidth > 768) initSwiper()
     }
     window.addEventListener('resize',validate)
@@ -80,9 +77,27 @@ class StickyProductOptions extends HTMLElement {
     this.decrementBtn = this.querySelector('#decrement')
     this.quantityField = this.querySelector('#quantity')
     this.quantityContainer = this.querySelector('#quantity-container')
+    this.price = this.querySelector('.spo-price')
 
+    this.priceOrg = document.querySelector(`#price-${this.dataset.sectionId}`)
     this.sendBtnOrg = document.querySelector('[name="add"][type="submit"]')
     this.quantityFieldOrg = document.querySelector('quantity-input')
+
+    /* Sincronizar precio al cargar page */
+    this.price.innerHTML = this.priceOrg.innerHTML
+
+
+    const priceChange = new MutationObserver(entries => {
+      entries.forEach(entry => {
+        this.price.innerHTML = this.priceOrg.outerHTML
+      })
+    })
+    priceChange.observe(this.priceOrg,{
+      subtree: true,
+      characterData: true,
+      childList: true,
+      attributes: true,
+    })
 
     const setSendBtn = e => {
       this.sendBtn.textContent = this.sendBtnOrg.textContent
@@ -99,7 +114,7 @@ class StickyProductOptions extends HTMLElement {
     this.addEventListener('click', (e) => {
       const target = e.target
       if(target.tagName === 'BUTTON') e.preventDefault()
-      if(target===this) return this.classList.remove(this.modalClass)
+      if(target===this) return this.closeModal()
       else if(target === this.sendBtn) return send()
       else if(target === this.incrementBtn) return this.increment()
       else if(target === this.decrementBtn) return this.decrement()
@@ -138,8 +153,16 @@ class StickyProductOptions extends HTMLElement {
     this.quantityField.dispatchEvent(new Event("change"))
   }
   mobileUI() {
-    if(!this.classList.contains(this.modalClass) && !this.classList.contains('only-pay')) return this.classList.add(this.modalClass)
+    if(!this.classList.contains(this.modalClass) && !this.classList.contains('only-pay')) return this.openModal()
     this.sendForm()
+  }
+  openModal() {
+    this.classList.add(this.modalClass)
+    document.body.classList.add('overflow-hidden')
+  }
+  closeModal() {
+    this.classList.remove(this.modalClass)
+    document.body.classList.remove('overflow-hidden')
   }
   desktopUI() {
     this.sendForm()

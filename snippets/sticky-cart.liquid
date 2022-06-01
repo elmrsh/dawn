@@ -209,6 +209,10 @@
     border-radius: 10px 10px 0 0;
     padding: 10px;
     height: auto;
+    grid-template-columns: auto 1fr;
+  }
+  .spo-swiper {
+    grid-column: span 2;
   }
   .spo-buttons {
     padding: 10px;
@@ -247,7 +251,7 @@
   }
   
 </style>
-<sticky-product-options class="spo" data-bp="768">
+<sticky-product-options class="spo" data-bp="768" data-section-id="{{ section.id }}">
     <div class="spo-variants">
       {% if section.settings.enable_image %}    
        <div class="spo__logo">
@@ -257,10 +261,10 @@
       {% if section.settings.enable_content %}  
       <div class="spo-variant--text-content">
         {% if section.settings.enable_title %}      
-          <h3>{{ product.title }}</h3>
+          <h3 style="margin:0; margin-bottom: .2em">{{ product.title }}</h3>
         {% endif %}
         {% if section.settings.enable_price %}
-          <p>{{ product.price | money_with_currency}}</p>
+          <div class="spo-price">{{ product.price | money_with_currency}}</div>
         {% endif %} 
       </div>
       {% endif %}
