@@ -1,0 +1,57 @@
+{{ 'mega-menu.css' | asset_url | stylesheet_tag }}
+
+<mega-menu data-target-link-title="{{ section.settings.link_title }}">
+    <div class="mega-menu__content">
+        {% for block in section.blocks %}
+            <div id="mega-menu__block_{{ block.id }}" class="mega-menu__block">
+                {% case block.type %}
+                    {% when 'menu' %}
+                        <span class="mega-menu__block-title">{{ block.settings.menu.title }}</span>
+                        {% render 'mega-menu-block-menu', menu: block.settings.menu %}
+                {% endcase %}
+            </div>
+        {% endfor %}
+    </div>
+</mega-menu>
+<script src="{{ 'mega-menu.js' | asset_url }}" type="module" defer="defer"></script>
+<style>
+    {% for block in section.blocks %}
+        #mega-menu__block_{{ block.id }} {
+            grid-column: span {{ block.settings.columns }};
+        }
+    {% endfor %}
+</style>
+
+{% schema %}
+{
+    "name": "t:sections.mega_menu.name_2",
+    "settings": [
+        {
+          "id": "link_title",
+          "type": "text",
+          "label": "Mega menú 2"
+        }
+    ],
+    "blocks": [
+      {
+        "type": "menu",
+        "name": "Menú",
+        "settings": [
+            {
+                "type": "link_list",
+                "id": "menu",
+                "label": "Mega menú 2"
+            },
+            {
+                "type": "range",
+                "id": "columns",
+                "label": "Columnas",
+                "default": 1,
+                "min": 1,
+                "max": 6
+            }
+        ]
+      }
+    ]
+}
+{% endschema %}

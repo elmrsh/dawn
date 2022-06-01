@@ -225,6 +225,24 @@
     {% section 'custom-announcement-bar' %}
     <!-- {% section 'announcement-bar' %} -->
     {% section 'haciendola-header' %}
+    {% if settings.mega_menu_enable %}
+    {% for i in (1..settings.mega_menu_quantity) %}
+      {% case i %}
+        {% when 1 %}
+          {% section 'mega-menu-1' %}
+        {% when 2 %}
+          {% section 'mega-menu-2' %}
+        {% when 3 %}
+          {% section 'mega-menu-3' %}
+        {% when 4 %}
+          {% section 'mega-menu-4' %}
+        {% when 5 %}
+          {% section 'mega-menu-5' %}
+        {% when 6 %}
+          {% section 'mega-menu-6' %}
+      {% endcase %}
+    {% endfor %}
+  {% endif %}
     {% comment %} {% section 'header' %} {% endcomment %}
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}

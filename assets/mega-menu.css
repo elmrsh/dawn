@@ -1,0 +1,47 @@
+.mega-menu__content {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  display: flex;
+  border: 1px solid black;
+  z-index: 999;
+}
+
+.mega-menu__block-title {
+  width: 100%;
+  border-bottom: 1px solid;
+  display: block;
+}
+
+.mega-menu__content:not(.active) {
+  pointer-events: none;
+}
+
+.mega-menu__content.active {
+  opacity: 1;
+}
+
+.mega-menu__block {
+  padding: 0 10px;
+}
+
+.mega-menu__block > ul {
+  list-style: none;
+  padding: 0;
+}
+
+.mega-menu__block a {
+  padding: 5px 0;
+}
+
+.mega-menu__block a span {
+  text-decoration: none;
+}
+
+.nav-link-container ul {
+  padding: 0;
+}
+
+.nav-link-container ul li {
+  list-style: none;
+}
