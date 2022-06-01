@@ -13,6 +13,7 @@
   @media screen and (min-width: 765px) {
     .fw-promo-block-container.fw-promo-block-container--image_first{
       flex-direction: row;
+      justify-content: center;
     }
   
     .fw-promo-block-container.fw-promo-block-container--text_first {
@@ -75,15 +76,13 @@
   <div class="fw-promo-block-container fw-promo-block-container--{{ block.settings.layout }}">
     <div class="fw-promo-block-image">
       {% if block.settings.image != blank %}
-        <img 
+        <img
           src="{{ block.settings.image | img_url: 'master' }}"
           alt="{{ block.settings.image.alt}}"
           width="{{ block.settings.image.width }}"
           height="{{ block.settings.image.height }}"
           loading="lazy"
           >
-      {% else %}
-        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
       {% endif %}
     </div>
     <div class="fw-promo-block-text">
