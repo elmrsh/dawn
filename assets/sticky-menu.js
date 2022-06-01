@@ -1,9 +1,78 @@
 class StickyProductOptions extends HTMLElement {
   constructor() {
     super();
+    console.log('Renderizamos el elemento')
+    this.printSelectors()
     this.modalClass = 'confirm'
     this.BP = parseInt(this.dataset.bp||768)
     this.initUI()
+    this.initSlider()
+  }
+  printSelectors() {
+    this.variantsContainer = this.querySelector('#variants-container')
+    this.fieldsets = [...document.querySelectorAll("variant-radios fieldset, variant-selects fieldset")]
+
+    if(!this.variantsContainer || this.fieldsets.length === 0) return this.classList.add('only-pay')
+
+    this.fieldsets.forEach(fl => {
+      const clone = fl.cloneNode(true)
+      clone.classList.add('swiper-slide')
+      const childrens = [...clone.querySelectorAll('input[type="radio"], label')]
+      childrens.forEach(child => {
+        if(child.tagName === "LABEL") {
+          const forAttr = child.getAttribute('for')
+          child.setAttribute('for',forAttr+"-2")
+          return
+        }
+        const prevId = child.id
+        const id = child.id+"-2"
+        const name = child.name+"-2"
+        child.id = id
+        child.name = name
+        child.dataset.id = prevId
+      })
+      this.variantsContainer.appendChild(clone)
+      clone.addEventListener('change', e => {
+        const orgOption = fl.querySelector(`#${e.target.dataset.id}`)
+        if(!orgOption) return
+        orgOption.checked = true
+        fl.dispatchEvent(new CustomEvent('change', {bubbles: true}))
+      })
+      fl.addEventListener('change', e => {
+        const opt = clone.querySelector(`[data-id="${e.target.id}"]`)
+        if(opt) opt.checked = true
+      })
+      // Todo: Selecciones inversas
+    })
+  }
+  initSlider() {
+    this.viewport = this.querySelector('.spo-swiper')
+    this.viewportWrapper = this.viewport.querySelector('.swiper-wrapper')
+    if(!this.viewportWrapper) return
+    const initSwiper = async () => {
+      this.viewportWrapper.classList.add('swiper-wrapper')
+      console.log('inicializamos',this.viewportWrapper)
+      const {Swiper} = await import(window.SwiperRoute)
+      this.swiper = new Swiper(this.viewport,{
+        slidesPerView: 'auto',
+        spaceBetween: 20,
+        navigation: {
+          prevEl: this.querySelector('.spo-variantArrow--prev'),
+          nextEl: this.querySelector('.spo-variantArrow--next')
+        }
+      })
+    }
+    const destroySwiper = () => {
+      if(this.swiper) this.swiper.destroy()
+      this.viewportWrapper.classList.remove('swiper-wrapper')
+    }
+    const validate = () => {
+      destroySwiper()
+      console.log('size', window.innerWidth)
+      if(window.innerWidth > 768) initSwiper()
+    }
+    window.addEventListener('resize',validate)
+    validate()
   }
   initUI() {
     this.sendBtn = this.querySelector('#submit')
@@ -11,11 +80,18 @@ class StickyProductOptions extends HTMLElement {
     this.decrementBtn = this.querySelector('#decrement')
     this.quantityField = this.querySelector('#quantity')
     this.quantityContainer = this.querySelector('#quantity-container')
-    this.sendBtnOrg = document.querySelector('.product-form__submit')
-    this.quantityFieldOrg = document.querySelector('quantity-input')
-    this.quantityFieldInputOrg = this.quantityFieldOrg.querySelector('input')
 
-    console.log(this.sendBtn.getBoundingClientRect())
+    this.sendBtnOrg = document.querySelector('[name="add"][type="submit"]')
+    this.quantityFieldOrg = document.querySelector('quantity-input')
+
+    const setSendBtn = e => {
+      this.sendBtn.textContent = this.sendBtnOrg.textContent
+      this.sendBtn.setAttribute('aria-disabled', this.sendBtnOrg.getAttribute('aria-diabled'))
+      this.sendBtn.disabled = this.sendBtnOrg.disabled
+    }
+    this.sendBtnOrg.addEventListener('DOMSubtreeModified', setSendBtn)
+    setSendBtn()
+
     const send = () => {
       if(innerWidth <= this.BP) return this.mobileUI()
       this.desktopUI()
@@ -35,43 +111,34 @@ class StickyProductOptions extends HTMLElement {
         return this.quantityField.value = this.quantityField.max
       if(value <= 1) this.quantityField.value = 1
     })
-
-    if(this.quantityFieldOrg) {
-
-      const changeValue = () => {
-        setTimeout(() => {
-          this.quantityField.value = this.quantityFieldOrg.querySelector('.quantity__input').value
-        }, 500)
-      }
-
-      this.quantityFieldOrg.addEventListener('click', changeValue)
-      this.quantityFieldInputOrg.addEventListener('change', changeValue)
+    if(this.quantityFieldOrg && this.quantityField) {
+      this.quantityFieldOrg.addEventListener('change',(e) => {
+        this.quantityField.value = e.target.value
+      })
       this.quantityField.addEventListener('change',() => {
-        this.quantityFieldOrg.querySelector('.quantity__input').value = this.quantityField.value
+        this.quantityFieldOrg.querySelector('input[type="number"]').value = this.quantityField.value
       })
     }
-    else this.quantityContainer.remove()
+    else if(this.quantityContainer) this.quantityContainer.remove()
 
-    IntersectionHandler.addListener(
+
+    window.IntersectionHandler.addListener(
       this.sendBtnOrg,
-      () => this.classList.remove('spo-show',this.modalClass),
+      () => this.classList.remove('spo-show', this.modalClass),
       () => this.classList.add('spo-show')
     )
   }
-
   increment() {
-    // if(this.quantityFieldInputOrg.max <= this.quantityField.value ) return 
     this.quantityField.value = parseInt(this.quantityField.value) + 1
     this.quantityField.dispatchEvent(new Event("change"))
   }
-
   decrement() {
     if(this.quantityField.value <= 1) return false
     this.quantityField.value = parseInt(this.quantityField.value) - 1
     this.quantityField.dispatchEvent(new Event("change"))
   }
   mobileUI() {
-    // if(!this.classList.contains(this.modalClass)) return this.classList.add(this.modalClass)
+    if(!this.classList.contains(this.modalClass) && !this.classList.contains('only-pay')) return this.classList.add(this.modalClass)
     this.sendForm()
   }
   desktopUI() {

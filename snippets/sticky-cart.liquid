@@ -1,56 +1,244 @@
+<link rel="stylesheet" href="{{ 'swiper-bundle.min.css' | asset_url }}">
 <style>
-  .spo {
-    position: fixed;
-    left: 0;
-    width: 100%;
-    bottom: -100%;
-    border-top: 1px solid #ccc;
-    z-index: 1000;
-    background: #fff;
-    transition: bottom .5s;
-    font-family: var(--font-button);
-  }
+.spo {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  gap: 10px;
+  position: fixed;
+  width: 100%;
+  bottom: -100%;
+  left: 0;
+  border-top: 1px solid #ccc;
+  z-index: 5;
+  background: #fff;
+  transition: bottom .5s;
+  box-sizing: border-box;
+}
+.spo-show {
+  bottom: 0
+}
+.spo-variants {
+  width: 100%;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: auto 1fr auto; 
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  gap: 15px;
+  height: 100%;
+}
 
-  .sticky-product-container {
+.spo-variants__container {
+  padding-right: 10px;
+}
+
+.spo-variants .swiper-notification {
+  display: none;
+}
+
+.spo-swiper {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  position: static;
+  width: 100%;
+  overflow: hidden;
+}
+.spo-swiper .swiper-slide {
+  flex: unset;
+}
+.spo-variants__item {
+  display: block;
+  padding: 10px;
+}
+.spo-variants__item:not(:first-of-type) {
+  border-left: 1px solid #ccc
+}
+.spo-variants__menu {
+  display: flex;
+  list-style: none;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+.spo-variant__header {
+  margin: 0;
+  text-align: left;
+  font-size: .8em;
+  font-weight: normal;
+  text-transform: uppercase;
+  margin: 0 0 .5em 5px;
+}
+.spo-variants__item li {
+  white-space: nowrap;
+}
+.spo-variants__menu [type="radio"] {
+  display: none;
+}
+.spo-variants__menu [type="radio"] + label {
+  display: block;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.spo-variants__menu [type="radio"]:checked + label {
+  color: #fff;
+  background: #000;
+  border-color: #000;
+}
+
+.spo-buttons {
+  display: block;
+}
+.spo-buttons > :last-child {
+  width: 100%;
+}
+.spo-quantity-field {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  margin-bottom: 5px;
+}
+
+.spo-buttons input, .spo-buttons button {
+  padding: 10px;
+  background: white;
+  border: 1px solid #ccc;
+  min-width: 50px;
+  outline: 0;
+  text-align: center;
+}
+.spo-buttons button {
+  cursor: pointer;
+}
+.spo-buttons input {
+  border-left: 0;
+  border-right: 0;
+}
+.spo-button {
+  position: absolute;
+  width: 60px;
+  background: linear-gradient(to right, #fff, transparent);
+  height: 100%;
+  top: 0;
+  left: 0;
+  border: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity .3s;
+}
+
+.spo fieldset {
+  margin: 0
+}
+
+/* Botones (Arrows) */
+.spo-variantArrow {
+  display: block;
+  width: 10px;
+  height: 20px;
+  background: transparent;
+  font-size: 14px;
+  padding: 0;
+  border: 0;
+  color: #000;
+  display: none;
+}
+.spo-variantArrow:disabled {
+  opacity: 0;
+}
+.spo-variantArrow svg {
+  transform: rotate(90deg);
+}
+.spo-variantArrow--next svg {
+  transform: rotate(-90deg);
+}
+
+.spo.only-pay {
+  display: block;
+}
+.spo.only-pay .spo-variants {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .only-pay:not(.not-quantity) .spo-buttons {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+  }
+  .only-pay:not(.not-quantity) .spo-quantity-field {
+    margin: 0;
+  }
+  .spo {
+    padding-left: {{ section.settings.sticky-atc_horizontal-padding}}px;
+    padding-right: {{ section.settings.sticky-atc_horizontal-padding}}px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .spo {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.5);
+    backdrop-filter: blur(2px);
+    flex-direction: column;
     align-items: center;
-    width: 95%;
-    max-width: 1200px;
-    margin: 0 auto;
+    justify-content: center;
+    gap: 0;
+    bottom: -100%;
+    transition: all .5s;
   }
+  .spo-variantArrow {
+    display: none;
+  }
+  .spo-variants, .spo-buttons {
+    background: #fff;
+    width: 100%;
+  }
+  .spo-variants {
+    border-radius: 10px 10px 0 0;
+    padding: 10px;
+    height: auto;
+  }
+  .spo-buttons {
+    padding: 10px;
+    border-radius: 0 0 10px 10px;
+  }
+  .spo-variants__item:not(:first-of-type) {
+    border: 0;
+  }
+  .spo:not(.confirm) {
+    height: fit-content;
+    background: #fff;
+    border-bottom: 0;
+    border-top: 1px solid #ccc;
+  }
+  .spo.spo-show {
+    bottom: 0;
+  }
+  .spo:not(.confirm) .spo-variants {
+    display: none;
+  }
+}
+.spo-buttons > button {
+    font-family: var(--font-body-family);
+}
+.spo-buttons > button:hover {
+    background: rgba(var(--color-button), var(--alpha-button-background));
+    color: rgb(var(--color-button-text));
+}
 
-
-  
-  @media only screen and (min-width: 800px) {
-    .sticky-product-container {
-      max-width: 800px;
-    }
-  }
-  
-
-  
-  @media only screen and (min-width: 1100px) {
-    .sticky-product-container {
-      max-width: 1100px;
-    }
-  }
-  
-  @media only screen and (min-width: 1300px) {
-    .sticky-product-container {
-      max-width: 1200px;
-    }
-  }
-  
-
-  .spo * {
-    font-family: var(--font-button) !important;
-  }
-  .spo-show {
-    bottom: 0
-  }
-  
-  .spo__logo {
+.spo__logo {
     display: block;
   }
   .spo__logo img {
@@ -58,232 +246,50 @@
     max-width: auto;
   }
   
-  
-  .spo-variants {
-    position: relative;
-    max-width: 100%;
-    overflow: hidden;
-    padding: 0 15px;
-  }
-  .spo-variants__container {
-    display: flex;
-    flex-direction: column;
-  }
-  .spo-variants__container h3 {
-    margin: 0;
-    font-weight: bold;
-    font-size: 1rem;
-  }
-  
-  
-  .spo-quantity-field {
-    display: flex;
-  }
-  .spo-quantity-field input {
-    margin: 0;
-    width: fit-content;
-    height: 100%;
-    width: 5ch;
-    text-align: center;
-    padding: 1ch;
-  }
-  .spo-buttons {
-    display: flex;
-    gap: 5px;
-  }
-  .spo-buttons img {
-    display: none;
-  }
-  .spo-buttons input, .spo-buttons button {
-    padding: 10px;
-    border: 1px solid #ccc;
-    min-width: 50px;
-    outline: 0;
-    text-align: center;
-  }
-  .spo-buttons button {
-    cursor: pointer;
-  }
-  .spo-buttons input {
-    border-left: 0;
-    border-right: 0;
-  }
-
-  .spo-buttons input:focus-visible {
-    outline: none;
-    box-shadow: none !important;
-  }
-
-  .spo-button {
-    position: absolute;
-    width: 60px;
-    background: linear-gradient(to right, #fff, transparent);
-    height: 100%;
-    top: 0;
-    left: 0;
-    border: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    opacity: 1;
-    transition: opacity .3s;
-  }
-
-  sticky-product-options .product-form__submit{
-    margin-bottom: 0;
-  }
-  
-  @media only screen and (max-width: 768px) {
-
-    .sticky-product-container {
-      box-shadow: 0 0 15px rgb(0 0 0 / 20%);
-    }
-    .spo {
-      display: flex;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,.5);
-      backdrop-filter: blur(2px);
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-      bottom: -100%;
-      transition: all .5s;
-      padding: 0;
-      border: 0;
-    }
-
-    .sticky-product-container {
-      display: flex;
-      width: 100%;
-    }
-    .spo-variants, .spo-buttons {
-      background: #fff;
-      width: 100%;
-    }
-    .spo-variants {
-      border-radius: 10px 10px 0 0;
-      padding: 10px;
-    }
-    .spo__logo {
-      display: none;
-    }
-    .spo-buttons {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-    }
-    .spo-buttons > button {
-      grid-column: span 2;
-      background: var(--button-color-background);
-      color: #000;
-      border-color: var(--color--brand);
-      border: 0 !important;
-      outline: none !important;
-      box-shadow: none !important;
-    }
-
-    .spo-buttons input, .spo-buttons button {
-      border: none;
-    }
-
-    .spo-buttons #increment,
-    .spo-buttons #decrement {
-      background-color: white;
-      color: var(--button-color-background);
-    }
-
-    .spo-buttons .spo-quantity-field {
-      max-width: 100%;
-      margin: 0 auto;
-      width: 50%;
-      padding: 10px 0;
-      font-size: 1.5rem;
-    }
-    .spo-quantity-field input {
-      width: 100%;
-      border: 0;
-    }
-    .spo-buttons img {
-      display: none;
-      width: 60px;
-      height: 60px;
-      object-fit: contain;
-      object-position: center;
-    }
-    .spo-variants__container {
-      display: block;
-    }
-    .spo-variants__item:not(:first-of-type) {
-      border: 0;
-    }
-    .spo:not(.confirm) {
-      height: fit-content;
-      background: #fff;
-      border-bottom: 0;
-      border-top: 1px solid #ccc;
-    }
-    .spo.spo-show {
-      bottom: 0;
-      border: 0 !important;
-      outline: none !important;
-    }
-    .spo:not(.confirm) .spo-variants {
-      display: none;
-    }
-  }
-
-  
-  .spo-buttons .add_to_cart {
-    gap: 10px;
-    padding: 10px 20px;
-  }
-
-  @media screen and (max-width: 500px) {
-    .spo-buttons .add_to_cart {
-      gap: 10px;
-      padding: 20px 40px;
-    }
-
-    #AToCart {
-      display: none;
-    }
-
-    .purchase-details {
-      display: none;
-    }
-  }
-  </style>
-  <sticky-product-options class="spo" data-bp="768">
-    <div class="sticky-product-container">
-      <div class="spo__logo">
-        <img src="{{ product.featured_image | img_url: 'medium' }}">
-      </div>
-      <div class="spo-variants">
-        <div class="spo-variants__container" id="variants-container">
-          <h3>{{ product.title }}</h3>
-          <p>{{ product.price | money_with_currency}}</p>
+</style>
+<sticky-product-options class="spo" data-bp="768">
+    <div class="spo-variants">
+      {% if section.settings.enable_image %}    
+       <div class="spo__logo">
+          <img src="{{ product.featured_image | img_url: 'medium' }}">
         </div>
+      {% endif %}
+      {% if section.settings.enable_content %}  
+      <div class="spo-variant--text-content">
+        {% if section.settings.enable_title %}      
+          <h3>{{ product.title }}</h3>
+        {% endif %}
+        {% if section.settings.enable_price %}
+          <p>{{ product.price | money_with_currency}}</p>
+        {% endif %} 
       </div>
-      <div class="spo-buttons">
+      {% endif %}
+      {% if section.settings.enable_sacVariants %}
+        <button class="spo-variantArrow spo-variantArrow--prev">
+          {% render 'icon-caret' %}
+        </button>
+        <div class="spo-swiper">
+          <div class="spo-variants__container swiper-wrapper" id="variants-container"></div>
+        </div>
+        <button class="spo-variantArrow spo-variantArrow--next">
+          {% render 'icon-caret' %}
+        </button>
+      {% endif %}
+    </div>
+    <div class="spo-buttons {% unless section.settings.enable_sacQuantity %}not-quantity{% endunless %}">
+      {% if section.settings.enable_sacQuantity %}
         <div class="spo-quantity-field" id="quantity-container">
           <button id="decrement">-</button>
-          <input type="number" value="1" min="1" id="quantity" max="{{ product.variant.inventory_quantity }}">
+          <input type="number" value="1" min="1" id="quantity">
           <button id="increment">+</button>
         </div>
-          <button 
-            id="submit"
-            class="product-form__submit button button--full-width button--secondary">
-            Agregar al carrito
-        </button>
-      </div>
+      {% endif %}
+      <button id="submit">Add to cart</button>
     </div>
-  </sticky-product-options>
-  
-  <script type="module" defer>
-    // window.CURRENT_PRODUCT = {{ product | json }};
-    import "{{ 'intersection-handler.js' | asset_url }}"
-    import "{{ 'sticky-menu.js' | asset_url }}"
-  </script>
+</sticky-product-options>
+<script>
+  window.SwiperRoute = "{{ 'swiper-bundle.esm.browser.js' | asset_url }}"
+</script>
+<script type="module" defer>
+  import "{{ 'sticky-menu.js' | asset_url }}"
+</script>
