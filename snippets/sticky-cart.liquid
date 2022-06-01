@@ -263,9 +263,7 @@
         {% if section.settings.enable_title %}      
           <h3 style="margin:0; margin-bottom: .2em">{{ product.title }}</h3>
         {% endif %}
-        {% if section.settings.enable_price %}
           <div class="spo-price">{{ product.price | money_with_currency}}</div>
-        {% endif %} 
       </div>
       {% endif %}
       {% if section.settings.enable_sacVariants %}
