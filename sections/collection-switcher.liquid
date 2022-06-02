@@ -109,9 +109,7 @@
   width: 100%;
 }
 
-#collection-switcher-{{ section.id }} .swiper-wrapper {
-  justify-content: center;
-}
+
 
 </style>
 
@@ -208,6 +206,7 @@
   
   const carrouselOne = new Swiper('.collectionOne-swiper', {
     slidesPerView: 1,
+    spaceBetween: 22,
     breakpoints: {
       765: {
         slidesPerView: productQuantity,
