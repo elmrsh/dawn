@@ -179,7 +179,11 @@
       z-index: 2;
       left: 0;
     }
-    .slideshow__controls .slider-button .icon {
+    #slide-{{ section.id }}  .slideshow-pause-play {
+      display: none;
+    }
+
+    #slide-{{ section.id }} .slideshow__controls .slider-button .icon {
       height: 1.5rem;
       color: {{ section.settings.arrow_color }};
     }
@@ -203,9 +207,8 @@
       #slide-{{ section.id }} .slider-button .icon {
         height: 2rem !important;
       }
-      #slide-{{ section.id }} .slider-counter {
-        display: none !important;
-      }
+
+
       {% if section.settings.show_pagination %}
         #slide-{{ section.id }} .slider-counter {
           display: flex !important;
@@ -411,13 +414,13 @@
       <button type="button" class="slider-button slider-button--next" name="next" aria-label="{{ 'sections.slideshow.next_slideshow' | t }}" aria-controls="Slider-{{ section.id }}">{% render 'icon-caret' %}</button>
 
       {%- if section.settings.auto_rotate -%}
-      <button type="button" class="slideshow__autoplay slider-button no-js-hidden{% if section.settings.auto_rotate == false %} slideshow__autoplay--paused{% endif %} {% if section.settings.hide_autoplay %} hidden{% endif %}" aria-label="{{ 'sections.slideshow.pause_slideshow' | t }}">
+      <button type="button" class="slideshow-pause-play slideshow__autoplay slider-button no-js-hidden{% if section.settings.auto_rotate == false %} slideshow__autoplay--paused{% endif %} {% if section.settings.hide_autoplay %} hidden{% endif %}" aria-label="{{ 'sections.slideshow.pause_slideshow' | t }}">
         {%- render 'icon-pause' -%}
         {%- render 'icon-play' -%}
       </button>
       {%- endif -%}
     </div>
-    {% if section.settings.slider_visual == "original" %}
+    {% if section.settings.arrow_style == "original" %}
       <div class="slider-counter slider-counter--{{ section.settings.slider_visual }}{% if section.settings.slider_visual == 'counter' or section.settings.slider_visual == 'numbers' %} caption{% endif %}" >
         {%- if section.settings.slider_visual == 'counter' -%}
           <span class="slider-counter--current">1</span>

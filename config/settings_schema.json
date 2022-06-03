@@ -315,22 +315,6 @@
         "unit": "px",
         "label": "t:settings_schema.global.settings.blur.label",
         "default": 0
-      },
-      {
-        "type": "header",
-        "content": "Back to top button"
-      },
-      {
-        "type": "checkbox",
-        "id": "back_to_top",
-        "label": "Enable back to top button",
-        "default": true
-      },
-      {
-        "type": "color",
-        "id": "back_to_top_bg_color",
-        "label": "Background color",
-        "default": "#000"
       }
     ]
   },
@@ -1253,6 +1237,23 @@
         "id": "cart_drawer_collection",
         "label": "t:settings_schema.cart.settings.cart_drawer.collection.label",
         "info": "t:settings_schema.cart.settings.cart_drawer.collection.info"
+      }
+    ]
+  },
+  {
+    "name": "Back to top button",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "back_to_top",
+        "label": "Enable back to top button",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "back_to_top_bg_color",
+        "label": "Background color",
+        "default": "#000"
       }
     ]
   },

@@ -1,14 +1,22 @@
 class MegaMenu extends HTMLElement {
   constructor() {
     super();
-    this.targetLink = [...document.querySelectorAll("summary.header__menu-item")].find(
-      (x) => {
-        const link = x.textContent.trim().toLowerCase()
-        const compare = this.dataset.targetLinkTitle.trim().toLowerCase()
-        return link === compare
-      }
+    this.targetLink = [...document.querySelectorAll(".header__menu-item")].find(
+      (x) =>
+        x.innerText.toLowerCase() === this.dataset.targetLinkTitle.toLowerCase()
     );
-    if(this.targetLink) this.activeOnHover()
+    this.megaMenuContent = this.querySelector(".mega-menu__content");
+    if(this.targetLink) this.targetLink.parentNode.appendChild(this.megaMenuContent);
+    this.header = this.megaMenuContent.closest('sticky-header')
+    if(this.header) this.previousBG = window.getComputedStyle(this.header).background
+
+
+    if(this.targetLink) this.targetLink.parentNode.addEventListener("mouseenter", this.open, false);
+    if(this.targetLink) this.targetLink.parentNode.addEventListener(
+      "mouseleave",
+      this.close,
+      false
+    );
 
     switch (this.dataset.megaMenuType) {
       case "collection_two_level":
@@ -20,11 +28,15 @@ class MegaMenu extends HTMLElement {
   }
 
   open = () => {
-    this.calcTop()
+    const background = window.getComputedStyle(this.megaMenuContent).background
+    if(this.header) this.header.style.background = background
+    if(this.header)  this.header.classList.add('megamenu-opened')
     this.megaMenuContent.classList.add("active");
   };
 
   close = () => {
+    if(this.header) this.header.classList.remove('megamenu-opened')
+    if(this.header && this.previousBG) this.header.style.background = this.previousBG
     this.megaMenuContent.classList.remove("active");
   };
 
@@ -51,35 +63,6 @@ class MegaMenu extends HTMLElement {
       .classList.add("active");
     console.log();
   };
-
-  calcTop = () => {
-    const itemTop = this.targetLink.getBoundingClientRect().top + this.targetLink.offsetHeight
-    this.header.style.setProperty('--header-top', `${itemTop}px`)
-  }
-  activeOnHover = () => {
-    try {
-      this.megaMenuContent = this.querySelector(".mega-menu__content");
-      this.menuItem = this.targetLink.parentElement
-      if(this.menuItem && this.megaMenuContent) this.menuItem.appendChild(this.megaMenuContent);
-    } catch(err) {
-      alert('Error: '+err.message)
-    }
-
-
-
-    const touchable = ('ontouchstart' in window)
-    if(touchable) this.menuItem.addEventListener("click", this.toggle)
-    else this.targetLink.parentNode.addEventListener("mouseenter", this.toggle, false);
-
-    this.header = this.targetLink.closest('.header')
-    this.calcTop()
-  }
-  toggle = (e) => {
-    const opened = this.targetLink.parentNode.getAttribute('open') !== null
-    const type = e.type
-    if((type == 'click' && !opened) || (!type != 'click' && opened)) this.open()
-    else this.close()
-  }
 }
 
 customElements.define("mega-menu", MegaMenu);

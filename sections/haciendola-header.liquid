@@ -11,14 +11,6 @@
   <link rel="stylesheet" href="{{ 'component-mega-menu.css' | asset_url }}" media="print" onload="this.media='all'">
   <noscript>{{ 'component-mega-menu.css' | asset_url | stylesheet_tag }}</noscript>
 {%- endif -%}
-{%- if settings.cart_type == "drawer" -%}
-  {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
-  {{ 'component-cart.css' | asset_url | stylesheet_tag }}
-  {{ 'component-totals.css' | asset_url | stylesheet_tag }}
-  {{ 'component-price.css' | asset_url | stylesheet_tag }}
-  {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
-  {{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
-{%- endif -%}
 
 <noscript>{{ 'component-list-menu.css' | asset_url | stylesheet_tag }}</noscript>
 <noscript>{{ 'component-search.css' | asset_url | stylesheet_tag }}</noscript>
@@ -51,7 +43,6 @@
   .list-menu--inline {
     display: inline-flex;
     flex-wrap: wrap;
-    align-items: center;
   }
 
   summary.list-menu__item {
@@ -77,120 +68,145 @@
       padding-top: 0.5rem;
     }
   }
-</style>
-
-{%- style -%}
-  .section-header {
-    margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
-  }
-
-  @media screen and (min-width: 750px) {
-    .section-header {
-      margin-bottom: {{ section.settings.margin_bottom }}px;
-    }
-  }
-  
-  {% if section.settings.enable_sticky_header and template.name == 'index' %}
-    
-  .header-wrapper {
-    background: transparent;
-    --color-foreground: {{ section.settings.header_color.red }}, {{ section.settings.header_color.green }}, {{ section.settings.header_color.blue }};
-    position: fixed;
-    width: 100%
-  }
-  .header-wrapper:before {
-    content: "";
-    display: block;
-    position: absolute;
-    background: {{ section.settings.background_gradient }};
-    transition: all .5s;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 0;
-    opacity: 0;
-  }
-  .header-wrapper > * {
+  .header__heading {
     position: relative;
+    z-index: 15;
   }
-  .header-wrapper .header__menu-item {
-    color: rgba(var(--color-foreground),.75)
-  }
-  .shopify-section-header-sticky .header-wrapper:before {
-    opacity: 1;
-  }
-
-  .section-header {
-    z-index: 9;
-  }
-
-  {% endif %}
-
-  #sticky-header__logo{
-    display: none;
-  }
-
-  {% if template.name == 'index' %}
-
-  #sticky-header__logo{
-    display: none;
-  }
-  
-  .shopify-section-header-sticky sticky-header #header__logo {
-    display: none;
-  }
-
-  .shopify-section-header-sticky sticky-header #sticky-header__logo {
-    display: block;
-  }
-
-  {% endif %}
-
-
-  
-
-  .section-header a[href="{{ section.settings.highlighted_text }}"]{
-    background-color: {{section.settings.highlighted_color}};
-    color: {{ section.settings.highlighted_text_color}};
-    padding: 10px 12px;
-    font-weight: bold;
-  }
-
-  .section-header a[href="{{ section.settings.highlighted_text }}"]:hover span {
-    text-decoration: none !important;
-  }
-{%- endstyle -%}
-
+</style>
+{% capture headerTransparent %}
+  background-color: transparent;
+  position: fixed;
+  width: 100%;
+  top: 0;
+{% endcapture %}
 {%- style -%}
   .section-header {
     margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+    z-index: 20;
   }
 
   @media screen and (min-width: 750px) {
     .section-header {
       margin-bottom: {{ section.settings.margin_bottom }}px;
     }
+  }
+  @media (min-width: 990px) {
+    .header-wrapper {
+      --color-foreground: {{ section.settings.header_color.red }}, {{ section.settings.header_color.green }}, {{ section.settings.header_color.blue }};
+      {% if request.page_type == 'index' or request.page_type == 'page' %}
+        {{ headerTransparent }}
+      {% else %}
+        background-color: {{ section.settings.static_background }};
+      {% endif %}
+      transition: all .5s;
+    }
+    .header-wrapper:before {
+      content: "";
+      display: block;
+      position: absolute;
+      background: {{ section.settings.background_gradient }};
+      transition: all .5s;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      opacity: 0;
+    }
+    .header-wrapper > * {
+      position: relative;
+      z-index: 0;
+    }
+    .header-wrapper .header__menu-item {
+      color: rgba(var(--color-foreground),1)
+    }
+    .shopify-section-header-sticky .header-wrapper {
+      background: transparent;
+      --color-foreground: {{ section.settings.header_sticky_color.red }}, {{ section.settings.header_sticky_color.green }}, {{ section.settings.header_sticky_color.blue }};
+    }
+    .shopify-section-header-sticky .header-wrapper:not(.megamenu-opened):before {
+      opacity: 1;
+      z-index: -1
+    }
+    #shopify-section-header {
+      z-index: 20;
+    }
+
+    .search-modal {
+      --gradient-background: {{ section.settings.searchBg }};
+      --color-foreground: {{ section.settings.searchColor.red }}, {{ section.settings.searchColor.green }}, {{ section.settings.searchColor.blue }};;
+    }
+  }
+  @media screen and (max-width: 990px) {
+    .search-modal {
+      --gradient-background: {{ section.settings.searchBg }};
+      --color-foreground: {{ section.settings.searchColor.red }}, {{ section.settings.searchColor.green }}, {{ section.settings.searchColor.blue }};;
+    }
+  }
+  .search-modal {
+    z-index: 20;
+  }
+  .search-modal__close-button.modal__close-button.link.link--text.focus-inset {
+    --color-foreground: 255,255,255;
+  }
+  @media screen and (min-width: 1600px) {
+    .search-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--header-height) !important;
+      max-height: var(--header-height) !important;
+      min-height:unset;
+    }
+  }
+  @media (max-width: 989px) {
+    .header-wrapper {
+      --color-foreground: {{ section.settings.header_color.red }}, {{ section.settings.header_color.green }}, {{ section.settings.header_color.blue }};
+      background-color: {{ section.settings.static_background }};
+    }
+    .menu-drawer {
+      --color-foreground: 6,6,6;
+    }
+  }
+  .header__icon,
+  .header__icon--cart .icon {
+    width: 2rem;
+    height: 2rem;
+  }
+  .header__icons {
+    gap: .5em;
+  }
+  .cart-count-bubble {
+    left: unset;
+    bottom: unset;
+    top: 0;
+    right: 0;
+    transform: translate(0.8em,-0.8em)
+  }
+  .header__icons {
+    margin-right: .5em;
   }
 {%- endstyle -%}
 
 <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
-{%- if settings.cart_type == "drawer" -%}
-  <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
-{%- endif -%}
 
 <svg xmlns="http://www.w3.org/2000/svg" class="hidden">
   <symbol id="icon-search" viewbox="0 0 18 19" fill="none">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.03 11.68A5.784 5.784 0 112.85 3.5a5.784 5.784 0 018.18 8.18zm.26 1.12a6.78 6.78 0 11.72-.7l5.4 5.4a.5.5 0 11-.71.7l-5.41-5.4z" fill="currentColor"/>
+    {% if settings.custom_search_icon == blank %}
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M11.03 11.68A5.784 5.784 0 112.85 3.5a5.784 5.784 0 018.18 8.18zm.26 1.12a6.78 6.78 0 11.72-.7l5.4 5.4a.5.5 0 11-.71.7l-5.41-5.4z" fill="currentColor"/>
+    {% else %}
+      {{ settings.custom_search_icon }}
+    {% endif %}
   </symbol>
 
   <symbol id="icon-close" class="icon icon-close" fill="none" viewBox="0 0 18 17">
     <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor">
   </symbol>
 </svg>
-<{% if section.settings.enable_sticky_header %}sticky-header{% else %}div{% endif %} class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}" id="header-wrapper">
+<{% if section.settings.enable_sticky_header %}sticky-header{% else %}div{% endif %} class="header-wrapper">
   <header class="header header--{{ section.settings.logo_position }} page-width{% if section.settings.menu != blank %} header--has-menu{% endif %}">
     {%- if section.settings.menu != blank -%}
       <header-drawer data-breakpoint="tablet">
@@ -367,11 +383,16 @@
         <details>
           <summary class="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle" aria-haspopup="dialog" aria-label="{{ 'general.search.search' | t }}">
             <span>
-              <svg class="modal__toggle-open icon icon-search" aria-hidden="true" focusable="false" role="presentation">
-                <use href="#icon-search">
-              </svg>
-              <svg class="modal__toggle-close icon icon-close" aria-hidden="true" focusable="false" role="presentation">
-                <use href="#icon-close">
+              {% comment %}
+                <svg class="modal__toggle-open icon icon-search" aria-hidden="true" focusable="false" role="presentation">
+                  <use href="#icon-search">
+                </svg>
+                <svg class="modal__toggle-close icon icon-close" aria-hidden="true" focusable="false" role="presentation">
+                  <use href="#icon-close">
+                </svg>
+              {% endcomment %}
+              <svg id="Capa_1"  class="modal__toggle-open icon icon-search" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" width="450" height="450" viewBox="0 0 450 450">
+                <path fill="currentColor" d="M0,173.68c1.1-7.47,1.94-15,3.34-22.41C9.61,118,24.32,88.93,47,63.89c26.63-29.4,59.36-48.48,98.25-56.21C190.77-1.38,234,5.48,273.9,29.51,319.3,56.84,348,96.66,359,148.49c9.37,44.14,2.48,86.23-19.46,125.73-4.21,7.59-4.34,7.51,1.93,13.79q47.59,47.6,95.19,95.18c10.27,10.25,14.82,22.28,11.09,36.66-6.95,26.8-40.74,36.84-62,15.16-17.92-18.25-36.14-36.21-54.22-54.29l-43.42-43.41c-.91-.91-1.89-1.77-2.44-2.28-11.29,5.89-21.89,12.48-33.27,17.18-48.9,20.17-97.82,20-146.19-1.93-36.32-16.44-64-42.54-83.48-77.21A173.5,173.5,0,0,1,.79,201.63,41.94,41.94,0,0,0,0,197.37Zm58.8,11.9c.23,67.71,55.47,122.68,123,122.39s122.36-55.13,122.41-122.56S248.78,62.57,181.4,62.79C113.59,63,58.57,118.11,58.8,185.58Z"/>
               </svg>
             </span>
           </summary>
@@ -450,16 +471,6 @@
               width="{{ section.settings.logo.width }}"
               height="{{ section.settings.logo.height }}"
               alt="{{ section.settings.logo.alt | default: shop.name | escape }}"
-              id="header__logo"
-            >
-            <img srcset="{{ section.settings.sticky_logo | image_url: width: section.settings.logo_width }} 1x, {{ section.settings.sticky_logo | image_url: width: image_size_2x }} 2x"
-              src="{{ section.settings.sticky_logo | image_url: width: section.settings.logo_width }}"
-              loading="lazy"
-              class="header__heading-logo"
-              width="{{ section.settings.sticky_logo.width }}"
-              height="{{ section.settings.sticky_logo.height }}"
-              alt="{{ section.settings.sticky_logo.alt | default: shop.name | escape }}"
-              id="sticky-header__logo"
             >
           {%- else -%}
             <span class="h2">{{ shop.name }}</span>
@@ -679,32 +690,28 @@
   </header>
 </{% if section.settings.enable_sticky_header %}sticky-header{% else %}div{% endif %}>
 
-{% if section.settings.open_hover %}  
-  <script>
+  {%- render 'cart-notification', color_scheme: section.settings.color_scheme -%}
+
+<script>
+  if(!('ontouchstart' in window)) {
     let items = document.querySelector(".header__inline-menu").querySelectorAll("details");
     items.forEach(item => {
       item.addEventListener("mouseover", () => {
         item.setAttribute("open", true);
-        item.querySelector("ul").addEventListener("mouseleave", () => {
-          item.removeAttribute("open");
-        });
+      }, false);
       item.addEventListener("mouseleave", () => {
         item.removeAttribute("open");
       });
     });
-    
-    });
-  </script>
-{% endif %}
-
-{%- if settings.cart_type == "notification" -%}
-  {%- render 'cart-notification', color_scheme: section.settings.color_scheme -%}
-{%- endif -%}
+  }
+</script>
 
 {% javascript %}
   class StickyHeader extends HTMLElement {
     constructor() {
       super();
+      const header = document.querySelector('.header')
+      header.style.setProperty('--header-height',header.offsetHeight+'px')
     }
 
     connectedCallback() {
@@ -833,18 +840,11 @@
   </script>
 {%- endif -%}
 
-
 {% schema %}
 {
   "name": "t:sections.header.name",
   "class": "section-header",
   "settings": [
-    {
-      "type": "checkbox",
-      "id": "open_hover",
-      "label": "Expand menu in hover",
-      "default": true
-    },
     {
       "type":  "color_background",
       "id": "background_gradient",
@@ -854,6 +854,32 @@
       "type": "color",
       "id": "header_color",
       "label": "Text Color"
+    },
+    {
+      "type": "color",
+      "id": "header_sticky_color",
+      "label": "Text Color (on Sticky)"
+    },
+    {
+      "type": "color",
+      "id": "static_background",
+      "label": "Static Background"
+    },
+    {
+      "type": "header",
+      "content": "Search Modal"
+    },
+    {
+      "type": "color",
+      "id": "searchBg",
+      "label": "Search modal background",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "searchColor",
+      "label": "Search modal text background",
+      "default": "#666"
     },
     {
       "type": "select",
@@ -887,11 +913,6 @@
       "type": "image_picker",
       "id": "logo",
       "label": "t:sections.header.settings.logo.label"
-    },
-    {
-      "type": "image_picker",
-      "id": "sticky_logo",
-      "label": "Sticky logo"
     },
     {
       "type": "range",
@@ -973,27 +994,6 @@
       "unit": "px",
       "label": "t:sections.header.settings.margin_bottom.label",
       "default": 0
-    },
-    {
-      "type": "header",
-      "content": "Highlighted text settings"
-    },
-    {
-      "type": "url",
-      "id": "highlighted_text",
-      "label": "Highlight text"
-    },
-    {
-      "type": "color",
-      "id": "highlighted_color",
-      "label": "Highlighted background color",
-      "default": "#fff"
-    },
-    {
-      "type": "color",
-      "id": "highlighted_text_color",
-      "label": "Highlighted text color",
-      "default": "#000"
     }
   ]
 }

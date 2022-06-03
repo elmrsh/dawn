@@ -1,10 +1,19 @@
 .mega-menu__content {
   position: absolute;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: all 0.5s ease;
   display: flex;
-  border: 1px solid black;
-  z-index: 999;
+  z-index: 14;
+  padding-top: 30px;
+  padding-bottom: 20px;
+}
+@keyframes MmenuFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .mega-menu__block-title {
@@ -19,6 +28,7 @@
 
 .mega-menu__content.active {
   opacity: 1;
+  animation: MmenuFadeIn .5s;
 }
 
 .mega-menu__block {
@@ -38,10 +48,19 @@
   text-decoration: none;
 }
 
-.nav-link-container ul {
-  padding: 0;
+.mega-menu__block-description,
+.mega-menu__block-description > * {
+  color: rgb(var(--color-foreground));
 }
 
-.nav-link-container ul li {
+@media screen and (max-width: 765px) {
+
+  mega-menu {
+    display: none;
+  }
+
+}
+
+.nav-link-container ul {
   list-style: none;
 }
