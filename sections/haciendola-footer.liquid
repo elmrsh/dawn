@@ -56,7 +56,13 @@
 
 <footer class="footer color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
   
-  {%- if settings.back_to_top -%}<a href="#header-wrapper" id="backToTop"></a> {%- endif -%}
+  {%- if settings.back_to_top -%}
+    <a href="#header-wrapper" id="backToTop">
+      <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+        <path d="M0 16.67l2.829 2.83 9.175-9.339 9.167 9.339 2.829-2.83-11.996-12.17z" fill="currentColor" />
+      </svg>
+    </a>
+  {%- endif -%}
   {%- if section.blocks.size > 0 or section.settings.newsletter_enable or section.settings.show_social -%}
     <div class="footer__content-top page-width">
       {%- if section.blocks.size > 0 -%}

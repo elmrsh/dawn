@@ -1241,23 +1241,6 @@
     ]
   },
   {
-    "name": "Back to top button",
-    "settings": [
-      {
-        "type": "checkbox",
-        "id": "back_to_top",
-        "label": "Enable back to top button",
-        "default": true
-      },
-      {
-        "type": "color",
-        "id": "back_to_top_bg_color",
-        "label": "Background color",
-        "default": "#000"
-      }
-    ]
-  },
-  {
     "name": "Haciendola - Extras",
     "settings": [
       {
@@ -1381,6 +1364,48 @@
           }
         ],
         "default": "column"
+      },
+      {
+        "type": "header",
+        "content": "Back to top button"
+      },
+      {
+        "type": "checkbox",
+        "id": "back_to_top",
+        "label": "Enable back to top button",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "back_to_top_bg_color",
+        "label": "Background color",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "back_to_top_icon_color",
+        "label": "Icon color",
+        "default": "#fff"
+      },
+      {
+        "type": "range",
+        "id": "back_to_top__bottom",
+        "min": 10,
+        "max": 150,
+        "step": 10,
+        "default": 20,
+        "label": "bottom spacing",
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "back_to_top__right",
+        "min": 10,
+        "max": 150,
+        "step": 10,
+        "default": 20,
+        "label": "right spacing",
+        "unit": "px"
       }
     ]
   }
