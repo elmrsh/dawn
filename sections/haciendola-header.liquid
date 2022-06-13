@@ -75,9 +75,10 @@
 </style>
 {% capture headerTransparent %}
   background-color: transparent;
-  position: fixed;
   width: 100%;
-  top: 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
 {% endcapture %}
 {%- style -%}
   .section-header {
@@ -100,19 +101,28 @@
       {% endif %}
       transition: all .5s;
     }
-    .header-wrapper:before {
-      content: "";
-      display: block;
-      position: absolute;
-      background: {{ section.settings.background_gradient }};
-      transition: all .5s;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      opacity: 0;
-    }
+
+    {% if request.page_type == 'index' or request.page_type == 'page' %}
+      .announcement-header--wrapper {
+        position: sticky;
+        top: calc(var(--announcement-height)  * -1);
+        z-index: 50;
+      }
+      .header-wrapper:before {
+        content: "";
+        display: block;
+        position: absolute;
+        background: {{ section.settings.background_gradient }};
+        transition: all .5s;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        opacity: 0;
+      }
+    {% endif %}
+
     .header-wrapper > * {
       position: relative;
       z-index: 0;

@@ -1,4 +1,4 @@
-<style type="text/css">
+<style>
   {% if section.settings.message_show %}
   .announcement {
     background-color: {{ section.settings.message_color_bg }};
@@ -69,6 +69,11 @@
     </div>
   {% endif %}
 {% endif %}
+
+<script type="module">
+  const slider = document.getElementById('announcement-swiper')
+  if(slider) document.body.style.setProperty('--announcement-height', `${slider.offsetHeight}px`)
+</script>
 
 {% schema %}
 {

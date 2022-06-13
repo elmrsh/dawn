@@ -225,8 +225,11 @@
       {%- render 'cart-drawer' -%}
     {%- endif -%}
 
-    {% section 'custom-announcement-bar' %}
-    {% section 'haciendola-header' %}
+    <div class="announcement-header--wrapper">
+      {% section 'custom-announcement-bar' %}
+      {% section 'haciendola-header' %}
+    </div>
+
     {% if settings.mega_menu_enable %}
     {% for i in (1..settings.mega_menu_quantity) %}
       {% case i %}
