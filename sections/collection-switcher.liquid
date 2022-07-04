@@ -109,12 +109,14 @@
   width: 100%;
 }
 
-
+.relative {
+  position: relative;
+}
 
 </style>
 
 <div id="collection-switcher-{{ section.id }}">
-  <div class="collection-switcher page-width">
+  <div class="collection-switcher page-width relative">
     <div class="collection-switcher__header">
       <div class="collection-heading">
         <p>{{ section.settings.heading }}</p>
@@ -156,16 +158,16 @@
               <p class="collection-empty">No product in collection</p>
             {% endif %}
           </div>
-          <div class="swiper-button-prev">
-            {%- render 'left-arrow'
-                fill: section.settings.arrow_color
-            -%}
-          </div>
-          <div class="swiper-button-next">
-            {%- render 'right-arrow'
-                fill: section.settings.arrow_color
-            -%}
-          </div>
+        </div>
+        <div class="swiper-button-prev">
+          {%- render 'left-arrow'
+          fill: section.settings.arrow_color
+          -%}
+        </div>
+        <div class="swiper-button-next">
+          {%- render 'right-arrow'
+          fill: section.settings.arrow_color
+          -%}
         </div>
       {% endfor %}
     </div>
@@ -223,9 +225,9 @@
 
 {% schema %}
 {
- "name": "H - Collection switcher",
- "max_blocks": 5,
- "settings": [
+  "name": "H - Collection switcher",
+  "max_blocks": 5,
+  "settings": [
     {
       "type": "text",
       "id": "heading",
@@ -257,21 +259,21 @@
       "label": "Slider autoplay",
       "default": false
     }
- ],
- "blocks": [
+  ],
+  "blocks": [
     {
       "type": "collection",
       "name": "Collection",
       "settings": [
-       {
-         "type": "collection",
-         "id": "collection",
-         "label": "Collection"
-       }
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        }
       ]
     }
- ],
- "presets": [
+  ],
+  "presets": [
     {
       "name": "H - Collection switcher",
       "blocks": [
@@ -286,6 +288,6 @@
         }
       ]
     }
- ]
+  ]
 }
 {% endschema %}
