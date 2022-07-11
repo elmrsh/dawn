@@ -73,6 +73,9 @@
     z-index: 15;
   }
 </style>
+
+{% assign transparentPages = "index,page" | split: ',' %}
+
 {% capture headerTransparent %}
   background-color: transparent;
   width: 100%;
@@ -94,7 +97,7 @@
   @media (min-width: 990px) {
     .header-wrapper {
       --color-foreground: {{ section.settings.header_color.red }}, {{ section.settings.header_color.green }}, {{ section.settings.header_color.blue }};
-      {% if request.page_type == 'index' or request.page_type == 'page' %}
+      {% if section.settings.transparency and transparentPages contains request.page_type %}
         {{ headerTransparent }}
       {% else %}
         background-color: {{ section.settings.static_background }};
@@ -102,7 +105,7 @@
       transition: all .5s;
     }
 
-    {% if request.page_type == 'index' or request.page_type == 'page' %}
+    {% if section.settings.transparency and transparentPages contains request.page_type %}
       .announcement-header--wrapper {
         position: sticky;
         top: calc(var(--announcement-height)  * -1);
@@ -850,6 +853,12 @@
   "name": "t:sections.header.name",
   "class": "section-header",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "transparency",
+      "label": "Enable transparency",
+      "default": true
+    },
     {
       "type":  "color_background",
       "id": "background_gradient",
