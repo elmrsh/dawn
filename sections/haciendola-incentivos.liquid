@@ -4,6 +4,7 @@
   padding-bottom: calc({{ section.settings.padding_bottom }}px  * 0.75);
   flex-wrap: wrap;
   display: flex;
+  justify-content: {{ section.settings.alignment }};
 }
 
 @media screen and (min-width: 750px) {
@@ -225,7 +226,7 @@
         {
           "type": "checkbox",
           "id": "revert_direction",
-          "label": "Invertir direccion",
+          "label": "Invertir dirección",
           "default": true
         }
       ]
@@ -351,6 +352,25 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 40
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alineación de los items",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Izquierda"
+        },
+        {
+          "value": "center",
+          "label": "Centro"
+        },
+        {
+          "value": "flex-end",
+          "label": "Derecha"
+        }
+      ]
     }
   ],
   "presets": [
