@@ -1,10 +1,10 @@
 .embla {
   position: relative;
-  background-color: #fff;
   padding: 50px;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
 }
 
 .embla__viewport {
@@ -39,13 +39,21 @@
   .embla__slide {
     padding-left: 10px;
     padding-right: 10px;
-    min-width: 20%;
+    min-width: var(--embla-slide-width, 20%);
   }
 }
 
 .embla__slide__inner {
   position: relative;
+  height: 100%;
 }
+
+.embla__slide__inner .card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .card-wrapper {
   overflow: visible;
 }
