@@ -105,12 +105,15 @@
       transition: all .5s;
     }
 
+    {% comment %}
+    TODO: Manejar el sticky del header. Y Rehacer el megamenu
+    {% endcomment %}
+    .announcement-header--wrapper {
+      position: sticky;
+      top: calc(var(--announcement-height)  * -1);
+      z-index: 50;
+    }
     {% if section.settings.transparency and transparentPages contains request.page_type %}
-      .announcement-header--wrapper {
-        position: sticky;
-        top: calc(var(--announcement-height)  * -1);
-        z-index: 50;
-      }
       .header-wrapper:before {
         content: "";
         display: block;

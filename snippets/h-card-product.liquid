@@ -86,24 +86,46 @@
         <div class="card__content">
           <div class="card__information">
             <h3 class="card__heading"{% if card_product.featured_media == nil and settings.card_style == 'standard' %} id="title-{{ section_id }}-{{ card_product.id }}"{% endif %}>
-              <a href="{{ card_product.url }}" class="full-unstyled-link">
+              <a href="{{ card_product.url }}" id="StandardCardNoMediaLink-{{ section_id }}-{{ card_product.id }}" class="full-unstyled-link" aria-labelledby="StandardCardNoMediaLink-{{ section_id }}-{{ card_product.id }} NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}">
                 {{ card_product.title | escape }}
               </a>
             </h3>
           </div>
           <div class="card__badge {{ settings.badge_position }}">
             {%- if card_product.available == false -%}
-              <span class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}">{{ 'products.product.sold_out' | t }}</span>
+              <span class="badge {{ settings.badge_position }} color-{{ settings.sold_out_badge_color_scheme }}">{{ 'products.product.sold_out' | t }}</span>
             {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
-              <span class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}">{{ 'products.product.on_sale' | t }}</span>
-            {%- endif -%}
+              <span class="badge {{ settings.badge_position }} color-{{ settings.sale_badge_color_scheme }}">{{ 'products.product.on_sale' | t }}</span>
+            {% endif %}
+            {% for tag in card_product.tags %}
+              {% if tag == settings.tag_name1 %}
+                <div class="badge" style="display: inline-block; background: {{ settings.tag_bgcolor1 }}; color: {{ settings.tag_textcolor1 }}; border-color: {{ settings.tag_bgcolor1 }};">
+                  {{ tag }}
+                </div>
+              {% endif %}
+              {% if tag == settings.tag_name2 %}
+                <div class="badge" style="display: inline-block; background: {{ settings.tag_bgcolor2 }}; color: {{ settings.tag_textcolor2 }}; border-color: {{ settings.tag_bgcolor2 }};">
+                  {{ tag }}
+                </div>
+              {% endif %}
+              {% if tag == settings.tag_name3 %}
+                <div class="badge" style="display: inline-block; background: {{ settings.tag_bgcolor3 }}; color: {{ settings.tag_textcolor3 }}; border-color: {{ settings.tag_bgcolor3 }};">
+                  {{ tag }}
+                </div>
+              {% endif %}
+              {% if tag == settings.tag_name4 %}
+                <div class="badge" style="display: inline-block; background: {{ settings.tag_bgcolor4 }}; color: {{ settings.tag_textcolor4 }}; border-color: {{ settings.tag_bgcolor4 }};">
+                  {{ tag }}
+                </div>
+              {% endif %}
+            {% endfor %}
           </div>
         </div>
       </div>
       <div class="card__content">
         <div class="card__information">
           <h3 class="card__heading{% if card_product.featured_media or settings.card_style == 'standard' %} h5{% endif %}"{% if card_product.featured_media or settings.card_style == 'card' %} id="title-{{ section_id }}-{{ card_product.id }}"{% endif %}>
-            <a href="{{ card_product.url }}" class="full-unstyled-link">
+            <a href="{{ card_product.url }}" id="CardLink-{{ section_id }}-{{ card_product.id }}" class="full-unstyled-link" aria-labelledby="CardLink-{{ section_id }}-{{ card_product.id }} Badge-{{ section_id }}-{{ card_product.id }}">
               {{ card_product.title | escape }}
             </a>
           </h3>
@@ -207,9 +229,9 @@
         {%- endif -%}
         <div class="card__badge {{ settings.badge_position }}">
           {%- if card_product.available == false -%}
-            <span class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}">{{ 'products.product.sold_out' | t }}</span>
+            <span id="Badge-{{ section_id }}-{{ card_product.id }}" class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}">{{ 'products.product.sold_out' | t }}</span>
           {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
-            <span class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}">{{ 'products.product.on_sale' | t }}</span>
+            <span id="Badge-{{ section_id }}-{{ card_product.id }}" class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}">{{ 'products.product.on_sale' | t }}</span>
           {%- endif -%}
         </div>
       </div>

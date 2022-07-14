@@ -210,6 +210,12 @@
           {%- case block.type -%}
           {%- when '@app' -%}
             {% render block %}
+          {% when 'sellos' %}
+            {% render 'sellos',
+                etiquetas: block.settings.tags,
+                type: block.settings.img_type,
+                descripcion: false
+            %}
           {%- when 'text' -%}
             <p class="product__text{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}" {{ block.shopify_attributes }}>
               {{- block.settings.text -}}
@@ -1078,6 +1084,40 @@
         {
           "type": "paragraph",
           "content": "t:sections.main-product.blocks.rating.settings.paragraph.content"
+        }
+      ]
+    },
+{
+      "type": "sellos",
+      "name": "Sellos",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "tags",
+          "label": "Tags",
+          "info": "Etiquetas separadas por coma sin espacio."
+        },
+        {
+          "type": "select",
+          "id": "img_type",
+          "label": "Image type",
+          "default": "png",
+          "options": [
+            {
+              "value": "png",
+              "label": "PNG"
+            },
+            {
+              "value": "jpg",
+              "label": "JPG"
+            },
+            {
+              "value": "svg",
+              "label": "SVG"
+            }
+          ],
+          "info": "Elegir la extensión de los iconos. Los iconos deben subirse a la carpeta /assets"
         }
       ]
     }
