@@ -1,7 +1,10 @@
 <script src="{{ 'mega-menu.js' | asset_url }}" type="module" defer="defer"></script>
 {{ 'mega-menu.css' | asset_url | stylesheet_tag }}
 
-<mega-menu data-mega-menu-type="{{ section.settings.mega_menu_type }}" data-target-link-title="{{ section.settings.link_title }}">
+<mega-menu
+  data-mega-menu-type="{{ section.settings.mega_menu_type }}"
+  data-target-link-title="{{ section.settings.link_title }}"
+>
     <div id="mega-menu__content-{{ section.id }}" class="mega-menu__content">
         {% case section.settings.mega_menu_type %}
             {% when 'column_layout' %}
