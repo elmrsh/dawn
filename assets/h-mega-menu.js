@@ -19,7 +19,7 @@ class HaciendolaMegaMenu extends HTMLElement {
     
     if(this.trigger) {
       this.parent.appendChild(this)
-      if(this.classList.contains("h-megamenu--centered")) {
+      if(this.classList.contains("h-megamenu--fullwidth")) {
         this.style.width = `${this.parent.offsetWidth}px`
       }
       

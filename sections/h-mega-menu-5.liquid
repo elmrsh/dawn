@@ -1,0 +1,157 @@
+<style>
+  .h-megamenu {
+    --spacing: 3rem;
+    --spacing-2: 6rem;
+    display: none;
+    grid-template-columns: repeat(var(--columns), 1fr);
+    justify-content: center;
+    padding: var(--spacing-2) var(--spacing);
+    gap: var(--spacing);
+    background: var(--background-color);
+    color: var(--color);
+    position: absolute;
+    width: var(--page-width);
+    top: var(--top-position);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+  }
+  .h-megamenu__column {
+    display: flex;
+    gap: var(--spacing);
+    width: fit-content;
+  }
+  .h-megamenu__column-heading {
+    display: block;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: var(--spacing);
+  }
+  .h-megamenu__image {
+    display: block;
+    width: auto;
+    height: 300px;
+  }
+  .h-megamenu__column-description {
+    display: block;
+    margin: var(--spacing) 0;
+    line-height: 1.3;
+  }
+  .h-megamenu__list {
+    margin: 0;
+    padding: 0;
+  }
+  .h-megamenu__list-item {
+    list-style: none;
+  }
+  .h-megamenu__list-link {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+  }
+  .h-megamenu__list-link:hover {
+    font-weight: 600;
+  }
+  .h-megamenu--centered {
+    justify-content: center;
+  }
+  .h-megamenu--centered .h-megamenu__column {
+    margin: auto;
+  }
+
+  
+</style>
+
+<h-megamenu
+  data-trigger="{{ section.settings.link_title }}"
+  class="h-megamenu {% if section.settings.centered %}h-megamenu--centered{% endif %} {% if section.settings.fullwidth %}h-megamenu--fullwidth{% endif %}"
+  style="{% assign columns = section.settings.columns %}
+    --background-color: {{ section.settings.background }};
+    --color: {{ section.settings.color }};
+    --columns: {% if section.blocks.size < columns %}{{section.blocks.size}}{% else %}{{ columns }}{% endif %};
+  "
+>
+  {% for block in section.blocks %}
+    {% case block.type %}
+    {% when 'column' %}
+      {% render 'h-megamenu-column', block: block %}
+    {% when 'full-width' %}
+    {% endcase %}
+  {% endfor %}
+</h-megamenu>
+
+<script src="{{ 'h-mega-menu.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "H - Megamenu 2.0",
+  "settings": [
+    {
+      "type": "text",
+      "id": "link_title",
+      "label": "Título del link"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Color de fondo",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "Color del texto",
+      "default": "#333"
+    },
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Enable Fullwidth",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "centered",
+      "label": "Centered elements",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Number of columns",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Columna",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Descripción"
+        }
+      ] 
+    }
+  ]
+}
+{% endschema %}
