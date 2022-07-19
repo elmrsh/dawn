@@ -1396,7 +1396,7 @@
         "id": "back_to_top__bottom",
         "min": 10,
         "max": 150,
-        "step": 10,
+        "step": 5,
         "default": 20,
         "label": "bottom spacing",
         "unit": "px"
@@ -1406,7 +1406,7 @@
         "id": "back_to_top__right",
         "min": 10,
         "max": 150,
-        "step": 10,
+        "step": 5,
         "default": 20,
         "label": "right spacing",
         "unit": "px"

@@ -586,6 +586,7 @@ noscript .localization-selector.link {
   pointer-events: all;
 }
 #backToTop svg {
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
