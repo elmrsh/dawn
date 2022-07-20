@@ -1,0 +1,343 @@
+<style>
+  #section-{{ section.id }} {
+    padding: 50px;
+    background: {{ section.settings.background }};
+    max-width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  #section-{{ section.id }} .logo-list {
+    list-style: none;
+    margin: 0 auto;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .logo-list h1 {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  #section-{{ section.id }} .logo-list--item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 5px 20px;
+    font-weight: bold;
+    flex-direction: column;
+  }
+  #section-{{ section.id }}  .swiper-button-next, 
+  #section-{{ section.id }}  .swiper-button-prev {
+    display: block;
+    position: absolute !important;
+  }
+
+  #section-{{ section.id }} .swiper-button-next {
+    right: 25px;
+  }
+
+  #section-{{ section.id }} .swiper-button-prev {
+    left: 25px;
+  }
+
+  #section-{{ section.id }} .swiper-button-next, 
+  #section-{{ section.id }} .swiper-button-prev {
+    color: {{ section.settings.arrows_color }};
+  }
+
+
+  #section-{{ section.id }} .swiper-button-next:after, 
+  #section-{{ section.id }} .swiper-button-prev:after {
+    font-size: 30px;
+  }
+  @media only screen and (min-width: 1450px) {
+    #section-{{ section.id }} .logo-list--item {
+      flex-direction: row;
+    }
+  }
+  #section-{{ section.id }} .logo-list--item img {
+    display: block;
+    width: 150px;
+    margin: 0;
+  }
+
+  {% if section.settings.enable_filter %}
+
+  #section-{{ section.id }} .logo-list--item img {
+    filter: grayscale(100%);
+    transition: all 0.3s ease-in;
+  }
+
+  #section-{{ section.id }} .logo-list--item:hover img {
+    filter: none;
+    transform: scale(1.04);
+  }
+
+  {% endif %}
+
+  #section-{{ section.id }} .logo-list--item__content {
+    margin: 0;
+    padding: 0;
+    width: fit-content;
+    line-height: 1.1;
+    text-align: center;
+  }
+  #section-{{ section.id }} .swiper-pagination-bullet {
+    margin-right: .2em;
+  }
+
+  #section-{{ section.id }} .swiper-pagination-bullet {
+    background-color: {{ section.settings.dots_color }};
+  }
+
+
+
+  .logo-list .swiper-wrapper {
+    margin-bottom: 20px;
+  }
+
+  @media only screen and (min-width: 1024px){
+    .logo-list .swiper-wrapper .swiper-slide {
+      max-width: 300px
+    }
+  }
+  @media only screen and (min-width: 1450px){
+    .logo-list .swiper-wrapper .swiper-slide {
+      max-width: 400px
+    }
+  }
+  @media only screen and (max-width: 480px) {
+    #section-{{ section.id }} .swiper-wrapper {
+      justify-content: flex-start;
+    }
+  }
+</style>
+
+<div class="logo-list {% unless section.settings.fullwidth %}page-width{% endunless %}">
+  <h1 class="h2">{{ section.settings.heading }}</h1>
+  <div id="section-{{ section.id }}" data-speed="{{section.settings.autoplay_speed | append: '000'}}">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="swiper-slide" {{ block.shopify_attributes }}>
+          <div class="logo-list--item" style="background: {{ block.settings.background }}">
+            {% if block.settings.image != blank %}
+            <a href="{{ block.settings.link }}" {% if section.settings.target_blank %} target="_blank" {% endif %}>
+              <img src="{{ block.settings.image | img_url: 'master' }}">
+            </a>
+            {% else %}
+              {{ 'image' | placeholder_svg_tag }}
+            {% endif %}
+            {% if block.settings.content != blank %}
+              <p class="logo-list--item__content">{{ block.settings.content }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    {%- unless section.settings.show_arrows -%}      
+    <div class="swiper-button-prev">
+    </div>
+    <div class="swiper-button-next">
+    </div>
+    {%- endunless -%}
+    {%- unless section.settings.show_pagination -%}
+    
+    <div class="logo-list-pagination--{{ section.id }}" style="width: fit-content; margin: auto;"></div>
+    {%- endunless -%}
+  </div>
+  </div>
+<script type="module">
+  import Swiper from "{{ 'swiper-bundle.esm.browser.min.js' | asset_url }}"
+  const slider = document.querySelector('#section-{{ section.id }}')
+  const autoPlaySpeed = slider.dataset.speed
+  const enableAutoplay = {{ section.settings.autoplay }}
+  const disableOnHover = {{ section.settings.pause_hover }}
+  const enableLoop = {{ section.settings.enable_loop }}
+  const paginationStyle = '{{ section.settings.pagination_style }}'
+
+  const swiper = new Swiper(slider,{
+    slidesPerView: 1,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    pagination: {
+      el: document.querySelector('.logo-list-pagination--{{ section.id }}'),
+      clickable: true,
+      type: paginationStyle
+
+    },
+    breakpoints: {
+      400: {
+        slidesPerView: 2
+      },
+      600: {
+        slidesPerView: 4
+      }
+    },
+    loop: enableLoop,
+    autoplay: enableAutoplay ? {
+      disableOnInteraction: false,
+      pauseOnMouseEnter: disableOnHover,
+      delay: autoPlaySpeed,
+    } : '',
+  })
+</script>
+
+{% schema %}
+{
+  "name": "Logo List",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section settings"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Titulo"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Section Background",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "header",
+      "content": "Autoplay settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Enable autoplay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Autoplay speed",
+      "unit": "s",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_hover",
+      "label": "Pause on hover",
+      "default": true,
+      "info": "Autoplay needs to be enable"
+    },
+    {
+      "type": "header",
+      "content": "Loop settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_loop",
+      "label": "Enable loop",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Dots settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pagination",
+      "label": "Hide pagination",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "pagination_style",
+      "label": "Pagination style",
+      "options": [
+        {
+          "value": "bullets",
+          "label": "Bullets"
+        },
+        {
+          "value": "fraction",
+          "label": "Fraction"
+        }
+      ],
+      "default": "bullets"
+    },
+    {
+      "type": "color",
+      "id": "dots_color",
+      "label": "Dots background color",
+      "default": "#000",
+      "info": "Only works with bullets style"
+    },
+    {
+      "type": "header",
+      "content": "Arrow settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Hide arrows",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "arrows_color",
+      "label": "Arrow color",
+      "default": "#000"
+    },
+    {
+      "type": "header",
+      "content": "Logo settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "target_blank",
+      "label": "Enable target blank",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filter",
+      "label": "Enable black and white",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo List",
+      "blocks": [
+        { "type": "logo" }
+      ]
+    }
+  ]
+}
+{% endschema %}

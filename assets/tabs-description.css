@@ -1,0 +1,126 @@
+.tabs-navigator {
+  display: block;
+  padding: 0;
+  margin: 20px 0;
+}
+.tabs-navigator__menu {
+  display: flex;
+  list-style: none;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  padding-bottom: 3px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.tabs-navigator__menu a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  color: inherit;
+  text-align: center;
+}
+.tabs-navigator__menu a.active {
+  border-color: var(--light-color);
+}
+
+.fit .tabs-navigator__menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  align-items: center;
+}
+.tabs .tabs-navigator__menu {
+  border-bottom: 1px solid #ccc;
+  padding: 0 10px;
+  position: relative;
+  overflow: unset;
+}
+.tabs .tabs-navigator__menu a {
+  border: 1px solid #ccc;
+  border-bottom: 0;
+  background-color: ccc;
+  position: relative;
+  border-radius: 0.5em 0.5em 0 0;
+  top: 1px;
+}
+.tabs .tabs-navigator__menu a.active {
+  border-color: #ccc;
+  background: #fff;
+}
+
+/* Secciones */
+.tabs-navigator__section:not(.active) > :not(.acordeon-handler) {
+  display: none;
+  transition: all 0.5s;
+}
+.tabs-navigator__section > :not(.acordeon-handler) {
+  animation: fadeIn 0.5s;
+  padding: 10px 20px;
+}
+.tabs-navigator__section > :not(ul):not(ol) {
+  margin: 0;
+}
+.tabs-navigator__section li {
+  margin-bottom: 1em;
+}
+.tabs-navigator__section ul,
+.tabs-navigator__section ol {
+  margin-bottom: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Sección  */
+.tabs-navigator__menu::-webkit-scrollbar {
+  width: 5px; /* Tamaño del scroll en vertical */
+  height: 5px; /* Tamaño del scroll en horizontal */
+}
+.tabs-navigator__menu::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+/* Covertir en acordeon */
+.acordeon-handler {
+  display: none;
+  cursor: pointer;
+}
+.acordeon-handler:after {
+  content: '+';
+  font-weight: bold;
+  font-size: 1.2em;
+  line-height: 1em;
+  transition: all 0.5s;
+}
+.active .acordeon-handler:after {
+  transform: rotate(45deg);
+}
+
+.acordeon .tabs-navigator__menu {
+  display: none !important;
+}
+.acordeon .tabs-navigator__section .acordeon-handler {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+  margin: 0;
+}
+.acordeon .active .acordeon-handler {
+  font-weight: bold;
+  border: 0;
+}
+.acordeon .tabs-navigator__section.active {
+  border-bottom: 1px solid #ccc;
+}

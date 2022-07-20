@@ -406,13 +406,20 @@ class MenuDrawer extends HTMLElement {
 
 customElements.define('menu-drawer', MenuDrawer);
 
+const text = document.querySelector('.copyright__content')
+text.innerHTML = ''
+const encrypt = atob('RGlzZW5hZG8gcG9yIEhhY2llbmRvbGEuY29t')
+const [a,b,c] = encrypt.split(' ')
+const fixText = a.replace('n', 'ñ')
+text.innerHTML = `${fixText} ${b} <a href=https://${c.toLowerCase()}>${c},</a>`
+
 class HeaderDrawer extends MenuDrawer {
   constructor() {
     super();
   }
 
   openMenuDrawer(summaryElement) {
-    this.header = this.header || document.getElementById('shopify-section-header');
+    this.header = this.header || document.getElementById('shopify-section-haciendola-header');
     this.borderOffset = this.borderOffset || this.closest('.header-wrapper').classList.contains('header-wrapper--border-bottom') ? 1 : 0;
     document.documentElement.style.setProperty('--header-bottom-position', `${parseInt(this.header.getBoundingClientRect().bottom - this.borderOffset)}px`);
     this.header.classList.add('menu-open');
@@ -529,6 +536,7 @@ class SliderComponent extends HTMLElement {
     this.pageTotalElement = this.querySelector('.slider-counter--total');
     this.prevButton = this.querySelector('button[name="previous"]');
     this.nextButton = this.querySelector('button[name="next"]');
+    this.counterContainer = this.querySelector('.slider-counter')
 
     if (!this.slider || !this.nextButton) return;
 
@@ -558,11 +566,24 @@ class SliderComponent extends HTMLElement {
   update() {
     const previousPage = this.currentPage;
     this.currentPage = Math.round(this.slider.scrollLeft / this.sliderItemOffset) + 1;
+    const paginationStyle = this.counterContainer.dataset.pagination
 
-    if (this.currentPageElement && this.pageTotalElement) {
+    if(paginationStyle === 'dots' || paginationStyle === 'numbers'){
+      this.counterContainer.classList.add('slideshow__control-wrapper')
+      this.counterContainer.innerHTML = ``
+      for (let index = 0; index < this.totalPages; index++) {
+        this.counterContainer.innerHTML += `
+          <span class="slider-counter__link slider-counter__link--${paginationStyle} link ${index + 1 == this.currentPage ? 'slider-counter__link--active' : ''}">
+            ${paginationStyle == 'numbers' ? index + 1 : '<span class="dot"></span>'}
+          </span>
+        `
+      }
+    } 
+    else if (this.currentPageElement && this.pageTotalElement) {
       this.currentPageElement.textContent = this.currentPage;
       this.pageTotalElement.textContent = this.totalPages;
     }
+    
 
     if (this.currentPage != previousPage) {
       this.dispatchEvent(new CustomEvent('slideChanged', { detail: {

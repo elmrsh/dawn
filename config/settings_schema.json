@@ -8,6 +8,26 @@
     "theme_support_url": "https://support.shopify.com/"
   },
   {
+    "name": "Opciones de Menú",
+    "settings": [
+      {
+        "id": "mega_menu_enable",
+        "label": "Activar mega menú",
+        "type": "checkbox",
+        "default": false
+      },
+      {
+        "id": "mega_menu_quantity",
+        "label": "Cantidad de mega menús",
+        "type": "range",
+        "default": 1,
+        "min": 1,
+        "max": 6,
+        "step": 1
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.colors.name",
     "settings": [
       {
@@ -83,6 +103,35 @@
         "id": "gradient_background_2",
         "type": "color_background",
         "label": "t:settings_schema.colors.settings.gradient_background_2.label"
+      },
+      {
+        "type": "header",
+        "content": "Badges",
+        "info": "Color para los badges Agotado y Oferta"
+      },
+      {
+        "id": "badges_custom_color_oferta",
+        "type": "color",
+        "label": "Color del badge Oferta",
+        "default": "#334FB4"
+      },
+      {
+        "id": "badges_custom_color_oferta_text",
+        "type": "color",
+        "label": "Color del texto",
+        "default": "#FFFFFF"
+      },
+      {
+        "id": "badges_custom_color_agotado",
+        "type": "color",
+        "label": "Color del badge Agotado",
+        "default": "#c49a6b"
+      },
+      {
+        "id": "badges_custom_color_agotado_text",
+        "type": "color",
+        "label": "Color del texto",
+        "default": "#FFFFFF"
       }
     ]
   },
@@ -950,16 +999,6 @@
         "label": "t:settings_schema.badges.settings.position.label"
       },
       {
-        "type": "range",
-        "id": "badge_corner_radius",
-        "min": 0,
-        "max": 40,
-        "step": 2,
-        "unit": "px",
-        "label": "t:settings_schema.global.settings.corner_radius.label",
-        "default": 40
-      },
-      {
         "type": "select",
         "id": "sale_badge_color_scheme",
         "options": [
@@ -974,10 +1013,15 @@
           {
             "value": "background-2",
             "label": "t:sections.all.colors.background_2.label"
+          },
+          {
+            "value": "sale-custom",
+            "label": "Custom color"
           }
         ],
         "default": "accent-2",
-        "label": "t:settings_schema.badges.settings.sale_badge_color_scheme.label"
+        "label": "Sale badge color scheme",
+        "info": "Si se elige custom, cambiar el color en la configuracion del tema, en la seccion de Colores"
       },
       {
         "type": "select",
@@ -990,10 +1034,15 @@
           {
             "value": "inverse",
             "label": "t:sections.all.colors.inverse.label"
+          },
+          {
+            "value": "soldout-custom",
+            "label": "Custom color"
           }
         ],
         "default": "inverse",
-        "label": "t:settings_schema.badges.settings.sold_out_badge_color_scheme.label"
+        "label": "Sold out badge color scheme",
+        "info": "Si se elige custom, cambiar el color en la configuracion del tema, en la seccion de Colores"
       }
     ]
   },
@@ -1192,6 +1241,175 @@
         "id": "cart_drawer_collection",
         "label": "t:settings_schema.cart.settings.cart_drawer.collection.label",
         "info": "t:settings_schema.cart.settings.cart_drawer.collection.info"
+      }
+    ]
+  },
+  {
+    "name": "Haciendola - Extras",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Tag name and color settings",
+        "info": "Custom tags for products"
+      },
+      {
+        "type": "text",
+        "id": "tag_name1",
+        "label": "Tag name 1"
+      },
+      {
+        "type": "color",
+        "id": "tag_bgcolor1",
+        "label": "Tag background color 1",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "tag_textcolor1",
+        "label": "Tag text color 1",
+        "default": "#000"
+      },
+      {
+        "type": "text",
+        "id": "tag_name2",
+        "label": "Tag name 2"
+      },
+      {
+        "type": "color",
+        "id": "tag_bgcolor2",
+        "label": "Tag background color 2",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "tag_textcolor2",
+        "label": "Tag text color 2",
+        "default": "#000"
+      },
+      {
+        "type": "text",
+        "id": "tag_name3",
+        "label": "Tag name 3"
+      },
+      {
+        "type": "color",
+        "id": "tag_bgcolor3",
+        "label": "Tag background color 3",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "tag_textcolor3",
+        "label": "Tag text color 3",
+        "default": "#000"
+      },
+      {
+        "type": "text",
+        "id": "tag_name4",
+        "label": "Tag name 4"
+      },
+      {
+        "type": "color",
+        "id": "tag_bgcolor4",
+        "label": "Tag background color 4",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "tag_textcolor4",
+        "label": "Tag text color 4",
+        "default": "#000"
+      },
+      {
+        "type": "header",
+        "content": "Tags border radius"
+      },
+      {
+        "type": "range",
+        "id": "badge_corner_radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.corner_radius.label",
+        "default": 40
+      },
+      {
+        "type": "header",
+        "content": "Tags gap settings",
+        "info": "Separation between tags"
+      },
+      {
+        "type": "range",
+        "id": "badge_gap",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "label": "Gap between badges",
+        "default": 5
+      },
+      {
+        "type": "header",
+        "content": "Tags alignment"
+      },
+      {
+        "type": "select",
+        "id": "badge_alignment",
+        "label": "Badge alignment",
+        "options": [
+          {
+            "value": "column",
+            "label": "Column"
+          },
+          {
+            "value": "row",
+            "label": "Row"
+          }
+        ],
+        "default": "column"
+      },
+      {
+        "type": "header",
+        "content": "Back to top button"
+      },
+      {
+        "type": "checkbox",
+        "id": "back_to_top",
+        "label": "Enable back to top button",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "back_to_top_bg_color",
+        "label": "Background color",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "back_to_top_icon_color",
+        "label": "Icon color",
+        "default": "#fff"
+      },
+      {
+        "type": "range",
+        "id": "back_to_top__bottom",
+        "min": 10,
+        "max": 150,
+        "step": 5,
+        "default": 20,
+        "label": "bottom spacing",
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "back_to_top__right",
+        "min": 10,
+        "max": 150,
+        "step": 5,
+        "default": 20,
+        "label": "right spacing",
+        "unit": "px"
       }
     ]
   }

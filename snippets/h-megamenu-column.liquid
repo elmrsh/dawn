@@ -1,0 +1,30 @@
+
+  <div class="h-megamenu__column">
+    {% if block.settings.title != blank
+      or block.settings.image != blank
+      or block.settings.description != blank 
+    %}
+      <div class="h-megamenu__content">
+        {% if block.settings.title != blank %}
+        <h3 class="h-megamenu__column-heading">{{ block.settings.title }}</h3>
+        {% endif %}
+        {% if block.settings.image != blank %}
+        <img 
+        src="{{ block.settings.image | img_url: 'master' }}" 
+        alt="{{ block.settings.image.alt}}" 
+        class="h-megamenu__image"
+        >
+        {% endif %}
+        {% if block.settings.image != blank %}
+          <p class="h-megamenu__column-description">{{ block.settings.description }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+    <ul class="h-megamenu__list">
+      {% for link in block.settings.menu.links %}
+        <li class="h-megamenu__list-item">
+          <a href="{{ link.url }}" class="h-megamenu__list-link">{{ link.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>

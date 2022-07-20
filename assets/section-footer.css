@@ -36,7 +36,7 @@
 @media screen and (min-width: 750px) {
   .footer__content-top .grid {
     row-gap: 6rem;
-    margin-bottom: 0;
+    margin-bottom: 3rem;
   }
 }
 
@@ -496,6 +496,20 @@ noscript .localization-selector.link {
   text-decoration: underline;
 }
 
+
+.footer-block__details-content .footer__list-social-alignment--left {
+  justify-content: flex-start !important;
+  gap: 25px;
+}
+
+.footer-block__details-content .footer__list-social-alignment--center {
+  justify-content: center !important;
+}
+
+.footer-block__details-content .footer__list-social-alignment--right {
+  justify-content: flex-end !important;
+}
+
 /* check for flexbox gap in older Safari versions */
 @supports not (inset: 10px) {
   @media screen and (max-width: 749px) {
@@ -513,4 +527,78 @@ noscript .localization-selector.link {
       padding-left: 3rem;
     }
   }
+}
+
+@media screen and (max-width: 750px) {
+  .accordion-body {
+    padding: 0 10px;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    max-height: 0;
+  }
+
+  .footer .accordion-header{
+    cursor: pointer;
+    position: relative;
+  }
+
+  .footer .accordion-header::after{
+    content: '+';
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .footer .active::after{
+    content: '-';
+  }
+
+  .footer-block__border-bottom{
+    border-bottom: 1px solid gainsboro !important;
+  }
+
+  .footer-block__details-content .footer__list-social{
+    display: none;
+  }
+
+  .footer-block--hide {
+    display: none;
+  }
+}
+
+#backToTop {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  position: fixed;
+  bottom: var(--back-to-top--bottom);
+  right: var(--back-to-top--right);
+  z-index: 999;
+  transition: all ease .5s;
+  opacity: 0;
+  pointer-events: none;
+}
+#backToTop.show {
+  opacity: 1;
+  pointer-events: all;
+}
+#backToTop svg {
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+  line-height: 1;
+  background-color: var(--back-to-top-bg-color) ;
+  width: 5ch;
+  height: 5ch;
+  color: var(--back-to-top-icon-color);
+}
+
+:root, body {
+  scroll-behavior: smooth;
 }

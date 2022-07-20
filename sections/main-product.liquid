@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="{{ 'tabs-description.css' | asset_url }}">
+
 <section id="MainProduct-{{ section.id }}" class="page-width section-{{ section.id }}-padding" data-section="{{ section.id }}">
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
@@ -7,6 +9,7 @@
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+
 
   {%- style -%}
     .section-{{ section.id }}-padding {
@@ -20,6 +23,7 @@
         padding-bottom: {{ section.settings.padding_bottom }}px;
       }
     }
+
   {%- endstyle -%}
 
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
@@ -206,6 +210,12 @@
           {%- case block.type -%}
           {%- when '@app' -%}
             {% render block %}
+          {% when 'sellos' %}
+            {% render 'sellos',
+                etiquetas: block.settings.tags,
+                type: block.settings.img_type,
+                descripcion: false
+            %}
           {%- when 'text' -%}
             <p class="product__text{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}" {{ block.shopify_attributes }}>
               {{- block.settings.text -}}
@@ -241,11 +251,15 @@
               {%- endform -%}
             </div>
           {%- when 'description' -%}
-            {%- if product.description != blank -%}
-              <div class="product__description rte quick-add-hidden">
-                {{ product.description }}
-              </div>
-            {%- endif -%}
+          {%- if product.description != blank and block.settings.show_tabs-%}
+            <tabs-description data-default-active="{{ block.settings.default_active }}" data-tab-title="{{ block.settings.tab_title }}" data-mobile="{{ block.settings.tabs_type_mobile }}" data-desktop="{{ block.settings.tabs_type}}" data-only-tabs="{{ block.settings.only_tabs }}">
+              {{- product.description -}}
+            </tabs-description>
+          {% elsif product.description != blank %}
+            <div class="product__description rte quick-add-hidden">
+              {{ product.description }}
+            </div>
+          {%- endif -%}
           {%- when 'custom_liquid' -%}
             {{ block.settings.custom_liquid }}
           {%- when 'collapsible_tab' -%}
@@ -506,6 +520,10 @@
     </div>
   </div>
 
+  {% if section.settings.enable_stickyAddToCart %}
+    {% render 'sticky-cart', section: section %}
+  {% endif %}
+
   <product-modal id="ProductModal-{{ section.id }}" class="product-media-modal media-modal">
     <div class="product-media-modal__dialog" role="dialog" aria-label="{{ 'products.modal.label' | t }}" aria-modal="true" tabindex="-1">
       <button id="ModalClose-{{ section.id }}" type="button" class="product-media-modal__toggle" aria-label="{{ 'accessibility.close' | t }}">{% render 'icon-close' %}</button>
@@ -636,6 +654,7 @@
     }
   </script>
 </section>
+<script src="{{ 'tabs-description.js' | asset_url }}" mode="module" defer></script>
 
 {% schema %}
 {
@@ -733,7 +752,72 @@
     {
       "type": "description",
       "name": "t:sections.main-product.blocks.description.name",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_tabs",
+          "label": "Show custom tabs",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "tabs_type",
+          "label": "Tabs styles",
+          "options": [
+            {
+              "value": "acordeon",
+              "label": "Acordeon"
+            },
+            {
+              "value": "tabs",
+              "label": "Tabs"
+            },
+            {
+              "value": "fit",
+              "label": "Fit"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "tabs_type_mobile",
+          "label": "Tabs styles mobile",
+          "options": [
+            {
+              "value": "acordeon",
+              "label": "Acordeon"
+            },
+            {
+              "value": "tabs",
+              "label": "Tabs"
+            },
+            {
+              "value": "fit",
+              "label": "Fit"
+            }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "id": "only_tabs",
+          "label": "Forzar tabs",
+          "default": false,
+          "info": "Crea una tab para el contenido inicial que no este bajo un h5"
+        },
+        {
+          "type": "text",
+          "id": "tab_title",
+          "label": "Titulo del tab (forzado)",
+          "default": "Descripción"
+        },
+       {
+         "type": "checkbox",
+         "id": "default_active",
+         "label": "Desplegar tab por defecto",
+         "default": true
+       }
+      ]
     },
     {
       "type": "share",
@@ -1002,6 +1086,40 @@
           "content": "t:sections.main-product.blocks.rating.settings.paragraph.content"
         }
       ]
+    },
+{
+      "type": "sellos",
+      "name": "Sellos",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "tags",
+          "label": "Tags",
+          "info": "Etiquetas separadas por coma sin espacio."
+        },
+        {
+          "type": "select",
+          "id": "img_type",
+          "label": "Image type",
+          "default": "png",
+          "options": [
+            {
+              "value": "png",
+              "label": "PNG"
+            },
+            {
+              "value": "jpg",
+              "label": "JPG"
+            },
+            {
+              "value": "svg",
+              "label": "SVG"
+            }
+          ],
+          "info": "Elegir la extensión de los iconos. Los iconos deben subirse a la carpeta /assets"
+        }
+      ]
     }
   ],
   "settings": [
@@ -1108,6 +1226,56 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
+    },
+    {
+      "type": "header",
+      "content": "STICKY ADD TO CART"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_stickyAddToCart",
+      "label": "Enable sticky add to cart",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_content",
+      "label": "Enable content (price and title)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_title",
+      "label": "Enable product title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_image",
+      "label": "Enable product image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sacQuantity",
+      "label": "Enable quantity selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sacVariants",
+      "label": "Show variants",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "sticky-atc_horizontal-padding",
+      "label": "Horizontal spacing",
+      "unit": "px",
+      "min": 10,
+      "max": 150,
+      "step": 10,
+      "default": 20
     }
   ]
 }

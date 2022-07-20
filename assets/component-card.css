@@ -3,18 +3,24 @@
   height: 100%;
   position: relative;
   text-decoration: none;
+  overflow: hidden;
 }
 
 .card {
   text-align: var(--card-text-alignment);
   text-decoration: none;
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  padding: 5px;
 }
 
-.card:not(.ratio) {
+/* .card:not(.ratio) {
   display: flex;
   flex-direction: column;
   height: 100%;
-}
+} */
 
 .card--card {
   height: 100%;
@@ -104,12 +110,12 @@
 
 .card__information {
   grid-row-start: 2;
-  padding: 1.3rem 1rem;
+  /* padding: 1.3rem 1rem; */
 }
 
-.card:not(.ratio) > .card__content {
+/* .card:not(.ratio) > .card__content {
   grid-template-rows: max-content minmax(0,1fr) max-content auto;
-}
+} */
 
 @media screen and (min-width: 750px) {
   .card__information {
@@ -119,6 +125,9 @@
 }
 
 .card__badge {
+  display: flex;
+  flex-direction: var(--badge-flex);
+  gap: var(--badge-gap);
   align-self: flex-end;
   grid-row-start: 3;
   justify-self: flex-start;

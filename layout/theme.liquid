@@ -67,7 +67,10 @@
         --color-base-accent-1: {{ settings.colors_accent_1.red }}, {{ settings.colors_accent_1.green }}, {{ settings.colors_accent_1.blue }};
         --color-base-accent-2: {{ settings.colors_accent_2.red }}, {{ settings.colors_accent_2.green }}, {{ settings.colors_accent_2.blue }};
         --payment-terms-background-color: {{ settings.colors_background_1 }};
-
+        --back-to-top-bg-color: {{ settings.back_to_top_bg_color }};
+        --back-to-top-icon-color: {{ settings.back_to_top_icon_color }};
+        --back-to-top--bottom: {{ settings.back_to_top__bottom }}px;
+        --back-to-top--right: {{ settings.back_to_top__right }}px;
         --gradient-base-background-1: {% if settings.gradient_background_1 != blank %}{{ settings.gradient_background_1 }}{% else %}{{ settings.colors_background_1 }}{% endif %};
         --gradient-base-background-2: {% if settings.gradient_background_2 != blank %}{{ settings.gradient_background_2 }}{% else %}{{ settings.colors_background_2 }}{% endif %};
         --gradient-base-accent-1: {% if settings.gradient_accent_1 != blank %}{{ settings.gradient_accent_1 }}{% else %}{{ settings.colors_accent_1 }}{% endif %};
@@ -96,7 +99,8 @@
         --card-shadow-horizontal-offset: {{ settings.card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
         --card-shadow-vertical-offset: {{ settings.card_shadow_vertical_offset | divided_by: 10.0 }}rem;
         --card-shadow-blur-radius: {{ settings.card_shadow_blur | divided_by: 10.0 }}rem;
-
+        --badge-gap: {{ settings.badge_gap | append: 'px'}};
+        --badge-flex: {{ settings.badge_alignment }};
         --badge-corner-radius: {{ settings.badge_corner_radius | divided_by: 10.0 }}rem;
 
         --popup-border-width: {{ settings.popup_border_thickness }}px;
@@ -212,6 +216,8 @@
       document.documentElement.classList.add('shopify-design-mode');
     }
     </script>
+    <link rel="stylesheet" href="{{ 'swiper.min.css' | asset_url }}">
+    <script type="module" src="{{ 'intersection-handler.js' | asset_url }}"></script>
   </head>
 
   <body class="gradient">
@@ -223,13 +229,35 @@
       {%- render 'cart-drawer' -%}
     {%- endif -%}
 
-    {% section 'announcement-bar' %}
-    {% section 'header' %}
+    <div class="announcement-header--wrapper">
+      {% section 'custom-announcement-bar' %}
+      {% section 'haciendola-header' %}
+    </div>
+
+    {% if settings.mega_menu_enable %}
+    {% for i in (1..settings.mega_menu_quantity) %}
+      {% case i %}
+        {% when 1 %}
+          {% section 'h-mega-menu-1' %}
+        {% when 2 %}
+          {% section 'h-mega-menu-2' %}
+        {% when 3 %}
+          {% section 'h-mega-menu-3' %}
+        {% when 4 %}
+          {% section 'h-mega-menu-4' %}
+        {% when 5 %}
+          {% section 'h-mega-menu-5' %}
+        {% when 6 %}
+          {% section 'h-mega-menu-6' %}
+      {% endcase %}
+    {% endfor %}
+  {% endif %}
+    {% comment %} {% section 'header' %} {% endcomment %}
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
 
-    {% section 'footer' %}
+    {% section 'haciendola-footer' %}
 
     <ul hidden>
       <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
@@ -268,5 +296,45 @@
     {%- if settings.predictive_search_enabled -%}
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    <script type="module">
+      import Swiper from "{{ 'swiper-bundle.esm.browser.min.js' | asset_url }}"
+      
+      const instance = () => {
+          const bar = document.querySelector('#announcement-swiper')
+          if(!bar) return
+          window.announcement = new Swiper(bar,{
+              direction: 'horizontal',
+              draggable: true,
+              autoplay: {
+                  delay: parseFloat(bar.dataset.duration) * 1000
+              },
+              speed: parseFloat(bar.dataset.transition) * 1000
+          })
+          document.addEventListener('shopify:section:unload', e => {
+              if(e.detail.sectionId !== 'announcement') return
+              window.announcement.destroy(true, true)
+          })
+          document.addEventListener('shopify:section:load', e => {
+              if(e.detail.sectionId !== 'announcement') return
+              instance()
+          })
+      }
+      instance()
+    </script>
+    <style>
+      {% if settings.sold_out_badge_color_scheme == 'soldout-custom' %}
+        .color-{{ settings.sold_out_badge_color_scheme }} {
+          background-color: {{ settings.badges_custom_color_agotado }};
+          color: {{ settings.badges_custom_color_agotado_text }};
+        }
+      {% endif %}
+      {% if settings.sale_badge_color_scheme == 'sale-custom' %}
+        .color-{{ settings.sale_badge_color_scheme }} {
+          background-color: {{ settings.badges_custom_color_oferta }};
+          color: {{ settings.badges_custom_color_oferta_text }};
+        }
+      {% endif %}
+    </style>
   </body>
 </html>
